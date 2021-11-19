@@ -1,6 +1,6 @@
 project(level1)
 
-file(GLOB SRC *.cc *.hh)
+file(GLOB SRC tasks/*.cc tasks/*.hh)
 add_library(cpp1_level1_unit1 ${SRC} ${EXT_LIBS_HEADERS})
 
 file(GLOB TESTS_SRC tests/*.cc tests/*.hh)
