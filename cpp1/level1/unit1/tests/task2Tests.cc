@@ -1,7 +1,7 @@
 #include <sstream>
 #include <ext-libs/catch2/catch.hpp>
 
-#include <cpp1/level1/unit1/tasks/tasks.h>
+#include <tasks/tasks.h>
 
 
 TEST_CASE("Task2") {
@@ -32,7 +32,7 @@ TEST_CASE("Task2") {
     REQUIRE(std::string(str) == "012AAA678");
   }
 
-  SECTION("Test that memory after \0 is safe") {
+  SECTION("Test that memory after \\0 is safe") {
     char str[] = "012aaa678\x00Q";
     REQUIRE(Task2::replaceChar(str, 'a', 'A') == 3);
     REQUIRE(str[10] == 'Q');

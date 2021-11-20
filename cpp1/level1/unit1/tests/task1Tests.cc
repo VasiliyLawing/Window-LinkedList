@@ -1,7 +1,7 @@
 #include <sstream>
 #include <ext-libs/catch2/catch.hpp>
 
-#include <cpp1/level1/unit1/tasks/tasks.h>
+#include <tasks/tasks.h>
 
 
 TEST_CASE("Task1") {

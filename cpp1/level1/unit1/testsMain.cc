@@ -8,3 +8,4 @@
 
 #include <cpp1/level1/unit1/tests/task1Tests.cc>
 #include <cpp1/level1/unit1/tests/task2Tests.cc>
+#include <cpp1/level1/unit1/tests/task3Tests.cc>
