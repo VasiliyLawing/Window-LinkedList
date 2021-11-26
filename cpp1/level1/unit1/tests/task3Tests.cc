@@ -1,5 +1,5 @@
 #include <sstream>
-#include <ext-libs/catch2/catch.hpp>
+#include <ext-libs/catch.hpp>
 
 #include <tasks/tasks.h>
 

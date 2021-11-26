@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#include <ext-libs/catch2/catch.hpp>
+#include <ext-libs/catch.hpp>
 
 
 // ===================================================================================
