@@ -2,14 +2,20 @@
 
 
 int main() {
-  const char* text = "ABC";
-  const char* text2 = text;
-  const char* anotherText = "Other text";
+  const char* text = "QWERTYUIOPASDFGHJKL";
 
-  std::cout << "text: \"" << text << "\" at addr: " << (const void*) text << std::endl;
-  text = anotherText;
-  std::cout << "text: \"" << text << "\" at addr: " << (const void*) text << std::endl;
+  // If you uncomment the next line you see that you cannot change the character pointer "text" points to.
+  //text[0] = '*';
 
+  // Creating an array of characters and initialize it with our text.
+  // You use an array the same way as usual pointer.
+  char text2[] = "QWERTYUIOPASDFGHJKL";
+  std::cout << "text2: \"" << text2 << " " << sizeof(text2) << std::endl;
 
-  std::cout << "original text: " << text2 << "\" at the same addr: " << (const void*) text2 << std::endl;
+  std::cout << "sizeof text: " << sizeof(text) << std::endl;
+
+  // You can change character in array 'text2'
+  text2[0] = '1';
+  text2[1] = '2';
+  std::cout << "text2: \"" << text2 << " " << std::endl;
 }
