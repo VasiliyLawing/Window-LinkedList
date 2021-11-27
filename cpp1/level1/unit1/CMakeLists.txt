@@ -9,7 +9,7 @@ foreach( afile ${EXAMPLE_SOURCES} )
 endforeach( afile ${EXAMPLE_SOURCES} )
 
 
-file(GLOB SRC tasks/*.cc tasks/*.hh)
+file(GLOB SRC examples/*cc tasks/*.cc tasks/*.hh)
 add_library(cpp1_level1_unit1 ${SRC} ${EXT_LIBS_HEADERS})
 
 add_executable(cpp1_level1_unit1_tests testsMain.cc)
