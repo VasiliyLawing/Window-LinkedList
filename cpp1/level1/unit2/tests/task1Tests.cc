@@ -5,7 +5,7 @@
 
 
 TEST_CASE("Task1") {
-  using namespace Cpp1::Unit1;
+  using namespace Cpp1::Unit2;
 
   const char* str = "0123456789abcdef";
 

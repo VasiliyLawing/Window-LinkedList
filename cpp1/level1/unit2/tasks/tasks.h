@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace Cpp1::Unit1 {
+namespace Cpp1::Unit2 {
   namespace Task1 {
     int searchChar(const char* str, char ch);
   }

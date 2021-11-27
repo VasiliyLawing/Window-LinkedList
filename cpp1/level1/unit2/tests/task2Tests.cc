@@ -5,7 +5,7 @@
 
 
 TEST_CASE("Task2") {
-  using namespace Cpp1::Unit1;
+  using namespace Cpp1::Unit2;
 
   SECTION("Replace one") {
     char str[] = "012a45678";

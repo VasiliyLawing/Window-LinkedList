@@ -5,7 +5,7 @@
 
 
 TEST_CASE("Task3") {
-  using namespace Cpp1::Unit1;
+  using namespace Cpp1::Unit2;
 
 
   SECTION("Reverse even number of chars") {
