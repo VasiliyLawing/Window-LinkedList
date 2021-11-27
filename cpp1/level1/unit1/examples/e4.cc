@@ -2,7 +2,7 @@
 
 int main() {
   // Try to change next line to counter = 11
-  // and you see the difference between while and do loops
+  // and you see the difference between "while" and "do" loops
   int counter = 0;
 
   do {
