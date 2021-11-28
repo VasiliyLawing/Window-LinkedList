@@ -23,9 +23,5 @@ set(MAIN_BIN_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
-#add_library(grok_base ${BASE_SRC} ${EXT_LIBS_HEADERS})
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
-
-#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/grok/asm)
-#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/grok/interp)
