@@ -1,11 +1,11 @@
 #include <iostream>
 
 
-namespace Cpp1::Unit3 {
+namespace Cpp1::Unit3::E1 {
 
   struct IntListNode {
-    int data;
-    IntListNode* next;
+    int           data;
+    IntListNode*  next;
   };
 
   struct IntList {
@@ -38,7 +38,7 @@ namespace Cpp1::Unit3 {
 
 
 int main() {
-  using namespace Cpp1::Unit3;
+  using namespace Cpp1::Unit3::E1;
 
   IntList list;
 
