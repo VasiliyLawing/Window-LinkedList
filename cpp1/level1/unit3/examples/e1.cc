@@ -1,7 +1,7 @@
 #include <iostream>
 
 
-namespace Cpp1::Unit3::E1 {
+namespace Cpp1::Unit3::Examples {
 
   struct IntListNode {
     int           data;
@@ -9,7 +9,7 @@ namespace Cpp1::Unit3::E1 {
   };
 
   struct IntList {
-    IntListNode* head = 0;
+    IntListNode* head;
   };
 
   void intListAddToHead(IntList* list, int data) {
@@ -34,31 +34,47 @@ namespace Cpp1::Unit3::E1 {
       std::cout << node->data << std::endl;
     }
   }
+
+  IntList* intListCreate() {
+    IntList* list = new IntList;
+    list->head = nullptr;
+
+    return list;
+  }
+
+  void intListDestroy(IntList* list) {
+    while (list->head != nullptr)
+      intListRemoveFromHead(list);
+
+    delete list;
+  }
 }
 
 
 int main() {
-  using namespace Cpp1::Unit3::E1;
+  using namespace Cpp1::Unit3::Examples;
 
-  IntList list;
+  IntList* list = intListCreate();
 
   std::cout << "#1:" << std::endl;
-  intListPrint(&list);
+  intListPrint(list);
 
   for(int i = 10; i > 0; --i) {
-    intListAddToHead(&list, i);
+    intListAddToHead(list, i);
   }
   std::cout << std::endl;
 
   std::cout << "#2:" << std::endl;
-  intListPrint(&list);
+  intListPrint(list);
   std::cout << std::endl;
 
 
   std::cout << "#3:" << std::endl;
-  while (list.head != nullptr) {
-    intListRemoveFromHead(&list);
-    intListPrint(&list);
+  while (list->head != nullptr) {
+    intListRemoveFromHead(list);
+    intListPrint(list);
     std::cout << std::endl;
   }
+
+  intListDestroy(list);
 }

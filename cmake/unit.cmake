@@ -9,7 +9,7 @@ file(GLOB SRC examples/*cc tasks/*.cc tasks/*.hh)
 add_library(${artifactPrefix} ${SRC} ${EXT_LIBS_HEADERS})
 
 
-if(unitNoTests EQUAL 1)
+if(NOT unitNoTests EQUAL 1)
 add_executable(${artifactPrefix}_tests testsMain.cc)
 target_link_libraries(${artifactPrefix}_tests PUBLIC ${artifactPrefix})
 
