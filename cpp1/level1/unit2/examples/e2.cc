@@ -10,6 +10,8 @@ int main() {
     std::cout << *p << " " << std::endl;
   }
   std::cout << std::endl;
+  --p;
+
 
   do {
     std::cout << *p << " " << std::endl;

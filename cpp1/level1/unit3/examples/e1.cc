@@ -1,7 +1,7 @@
 #include <iostream>
 
 
-namespace Cpp1::Unit3::Examples {
+namespace Cpp1::Unit3::E1 {
 
   struct IntListNode {
     int           data;
@@ -52,7 +52,7 @@ namespace Cpp1::Unit3::Examples {
 
 
 int main() {
-  using namespace Cpp1::Unit3::Examples;
+  using namespace Cpp1::Unit3::E1;
 
   IntList* list = intListCreate();
 

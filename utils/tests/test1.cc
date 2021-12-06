@@ -8,22 +8,27 @@
 void runTask(int level, int unit, int task) {
   std::ostringstream os;
   os
-    << "cmake-build-debug/cpp1/"
+    << "../../cmake-build-debug/cpp1/"
     << "level" << level
     << "/unit" << unit
     << "/"
     << "level" << level << "_unit" << unit << "_task" << task;
 
-  std::cerr << "Opening: " << os.str();
+  std::string cmd = os.str();
 
-  FILE* p = popen(os.str().c_str(), "r");
-//  std::ifstream is(p);
+  std::cerr << "Opening: " << cmd;
+
+  using namespace boost::process;
+
+  ipstream pipe_stream;
+  child c(cmd, std_out > pipe_stream);
+
 }
 
 
 TEST_CASE("Utils1") {
   SECTION("Sec1") {
-    runTask(1, 2, 1);
+    runTask(1, 1, 1);
 
     REQUIRE(7 == 7);
   }
