@@ -1,5 +1,6 @@
 #!/bin/sh
 
+mkdir -p build
 cd build
 make level$1_unit$2_e$3
 ./cpp1/level$1/unit$2/e$3
