@@ -1,9 +1,9 @@
-#include "e1.hh"
+#include "lib/list1.hh"
 #include <iostream>
 
 
 namespace Cpp1::Unit3::E2 {
-  using namespace Cpp1::Unit3::E1;
+  using namespace Cpp1::Unit3;
 
   IntListNode* createMyList() {
     IntListNode* node3 = new IntListNode{30, nullptr};

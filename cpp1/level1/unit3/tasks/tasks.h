@@ -1,15 +1,12 @@
 #pragma once
 
 
-#include <cpp1/level1/unit3/examples/e3.hh>
+#include <lib/list2.hh>
 
 
 namespace Cpp1::Unit3 {
-  namespace  Task1 {
-    using namespace Cpp1::Unit3::E3;
-
-    void intListInsertAfter(IntList* after, int data);
+  IntListNode* intListInsertAfter(IntListNode* after, int data);  // task1
+  void intListRemove(IntList* list, IntListNode* node);           // task2
 
 //  int intList(const char* str, char ch);
-  }
 }

@@ -5,7 +5,7 @@
 #include <tasks/tasks.h>
 
 
-TEST_CASE("Task1") {
+TEST_CASE("Level1 Unit2 Task1") {
   using namespace Cpp1::Unit2;
 
   const char* str = "0123456789abcdef";

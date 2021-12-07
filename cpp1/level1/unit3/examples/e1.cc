@@ -1,10 +1,10 @@
-#include "e1.hh"
+#include "lib/list1.hh"
 #include <iostream>
 
 
 
 int main() {
-  using namespace Cpp1::Unit3::E1;
+  using namespace Cpp1::Unit3;
 
   IntListNode node3 = {30, nullptr};
   IntListNode node2 = {20, &node3};
