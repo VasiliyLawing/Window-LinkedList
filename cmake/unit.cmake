@@ -4,7 +4,6 @@ foreach( afile ${EXAMPLE_SOURCES} )
     set(fullExampleName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${exampleName})
 
     add_executable( ${fullExampleName} examples/${afile} )
-    set_target_properties(${fullExampleName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/examples" )
     set_target_properties(${fullExampleName} PROPERTIES RUNTIME_OUTPUT_NAME "${exampleName}" )
 endforeach( afile ${EXAMPLE_SOURCES} )
 
@@ -21,15 +20,19 @@ if(DEFINED ANYSOLO_BINARY_TASKS)
         set(fullTaskName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${taskName})
 
         add_executable( ${fullTaskName} tasks/${afile} )
-        set_target_properties(${fullTaskName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tasks" )
         set_target_properties(${fullTaskName} PROPERTIES RUNTIME_OUTPUT_NAME "${taskName}" )
     endforeach( afile ${TASKS_SOURCES} )
 endif()
 
 
 if(NOT DEFINED unitNoTests)
-    add_executable(${artifactPrefix}_tests testsMain.cc)
-    target_link_libraries(${artifactPrefix}_tests PUBLIC ${artifactPrefix})
+    file( GLOB TEST_SOURCES RELATIVE ${unitDir}/tests tests/*.cc )
 
-    catch_discover_tests(${artifactPrefix}_tests)
+    foreach( afile ${TEST_SOURCES} )
+        string( REPLACE ".cc" "" testName ${afile} )
+        set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${testName})
+        add_executable(${fullTargetName} tests/${afile})
+        set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${testName}" )
+        target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
+    endforeach( afile ${TASKS_SOURCES} )
 endif()

@@ -1,4 +1,5 @@
 #include <sstream>
+#define CATCH_CONFIG_MAIN
 #include <ext-libs/catch.hpp>
 
 #include <tasks/tasks.h>

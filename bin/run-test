@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cd build
+make level$1_unit$2_task$3Tests
+binName="./cpp1/level$1/unit$2/task$3Tests"
+shift 3
+$binName $*

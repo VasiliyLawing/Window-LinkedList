@@ -1,15 +1,8 @@
-#include "e1.hh"
+#include "e3.hh"
 #include <iostream>
 
 
-namespace Cpp1::Unit3::E2 {
-  using namespace Cpp1::Unit3::E1;
-
-
-  struct IntList {
-    IntListNode* head;
-  };
-
+namespace Cpp1::Unit3::E3 {
   void intListAddToHead(IntList* list, int data) {
     IntListNode* newNode = new IntListNode;
     newNode->data = data;
@@ -50,7 +43,7 @@ namespace Cpp1::Unit3::E2 {
 
 
 int main() {
-  using namespace Cpp1::Unit3::E2;
+  using namespace Cpp1::Unit3::E3;
 
   IntList* list = intListCreate();
 
