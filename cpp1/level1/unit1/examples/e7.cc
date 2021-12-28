@@ -15,6 +15,7 @@ int main() {
 
   // This is the simplest way to do forever loop in C and C++
   i = 0;
+
   for(;;) {
     std::cout << "i = " << i << std::endl;
 
