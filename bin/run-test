@@ -1,0 +1,14 @@
+#!/bin/sh
+
+mkdir -p build
+cd build
+make level$1_unit$2_task$3Tests
+
+if [ $? -eq 0 ]
+then
+  binName="./cpp1/level$1/unit$2/task$3Tests"
+  shift 3
+  $binName $*
+else
+  echo Compile error
+fi

@@ -1,10 +1,11 @@
 #include <sstream>
+#define CATCH_CONFIG_MAIN
 #include <ext-libs/catch.hpp>
 
 #include <tasks/tasks.h>
 
 
-TEST_CASE("Task3") {
+TEST_CASE("Level1 Unit2 Task3") {
   using namespace Cpp1::Unit2;
 
 

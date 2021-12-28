@@ -1,12 +1,12 @@
 #pragma once
 
 
-namespace Cpp1::Unit3 {
-  namespace  Task1 {
-    struct IntList;
+#include <lib/list2.hh>
 
-    void intListAddToHead(IntList* list, int data);
+
+namespace Cpp1::Unit3 {
+  IntListNode* intListInsertAfter(IntListNode* after, int data);  // task1
+  void intListRemove(IntList* list, IntListNode* node);           // task2
 
 //  int intList(const char* str, char ch);
-  }
 }

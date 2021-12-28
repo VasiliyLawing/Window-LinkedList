@@ -1,17 +1,47 @@
+file(GLOB LIB_SRC lib/*.hh lib/*.cc)
+add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS})
+set_target_properties(${artifactPrefix} PROPERTIES LINKER_LANGUAGE CXX)
+
 file( GLOB EXAMPLE_SOURCES RELATIVE ${unitDir}/examples examples/*.cc )
 foreach( afile ${EXAMPLE_SOURCES} )
-    string( REPLACE ".cc" "" binaryName ${afile} )
-    add_executable( ${artifactPrefix}_${binaryName} examples/${afile} )
+    string( REPLACE ".cc" "" exampleName ${afile} )
+    set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${exampleName})
+
+    add_executable( ${fullTargetName} examples/${afile} )
+    target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
+    set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${exampleName}" )
 endforeach( afile ${EXAMPLE_SOURCES} )
 
 
-file(GLOB SRC examples/*cc tasks/*.cc tasks/*.hh)
-add_library(${artifactPrefix} ${SRC} ${EXT_LIBS_HEADERS})
+#if(DEFINED ANYSOLO_BINARY_TASKS)
+#    file( GLOB TASKS_SOURCES RELATIVE ${unitDir}/tasks tasks/*.cc )
+#
+#    foreach( afile ${TASKS_SOURCES} )
+#        string( REPLACE ".cc" "" taskName ${afile} )
+#        set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${taskName})
+#
+#        add_executable( ${fullTargetName} tasks/${afile} )
+#        target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
+#        set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${taskName}" )
+#    endforeach( afile ${TASKS_SOURCES} )
+#endif()
 
 
 if(NOT DEFINED unitNoTests)
-    add_executable(${artifactPrefix}_tests testsMain.cc)
-    target_link_libraries(${artifactPrefix}_tests PUBLIC ${artifactPrefix})
+    file( GLOB TEST_SOURCES RELATIVE ${unitDir}/tests tests/*.cc )
+    file( GLOB TEST_LIB_SOURCES RELATIVE ${unitDir} tests/lib/*.cc tests/lib/*.hh)
 
-    catch_discover_tests(${artifactPrefix}_tests)
+    foreach( afile ${TEST_SOURCES} )
+        string( REPLACE "Tests.cc" ".cc" taskFileName ${afile} )
+
+#        message(WARNING ${PROJECT_SOURCE_DIR}/tasks/${taskFileName})
+        if(EXISTS ${PROJECT_SOURCE_DIR}/tasks/${taskFileName})
+            string( REPLACE ".cc" "" testName ${afile} )
+            set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${testName})
+            add_executable(${fullTargetName} tests/${afile} tasks/${taskFileName} ${TEST_LIB_SOURCES})
+            set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${testName}" )
+            target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
+
+        endif()
+    endforeach( afile ${TEST_SOURCES} )
 endif()
