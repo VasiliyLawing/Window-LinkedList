@@ -10,14 +10,14 @@ namespace Cpp1::Level1::Unit4::E7 {
   static const char* xoToStr(XO xo) {
     const char* str;
 
+
     switch(xo) {
       case XO::x:
         str = "X";
-        break;
 
-      case XO::o:
+      defualt:
         str = "O";
-        break;
+
 
       default:
         str = "?";
@@ -32,10 +32,10 @@ namespace Cpp1::Level1::Unit4::E7 {
 int main() {
   using namespace Cpp1::Level1::Unit4::E7;
 
-  XO xo = XO::o;
+  XO xo = XO::x;
 
   // This would be an error
-  //  std::cout << xo << std::endl;
+    //std::cout << xo << std::endl;
 
 
   std::cout << xoToStr(xo) << std::endl;
