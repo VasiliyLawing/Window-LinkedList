@@ -1,20 +1,19 @@
 #include <iostream>
 
+struct Frac {
+    int m;
+    int n;
+    void print(const Frac* f) {
+        std::cout << f->m << "/" << f->n << std::endl;
+    }
 
-int main() {
-  // You can specify size of an array explicitly
-  char text[10] = "ABC";
-  std::cout << "text: \"" << text << "\" " << sizeof(text) << std::endl;
+    static Frac mutiply(const Frac* f1, const Frac* f2){
+        return Frac{f1->m * f2->m,f1->n * f2->n};
+    }
+};
 
-  // "text" array behaves like a pointer with type char*
-  // We can assign it to const char* because it applies more restrictions.
-  const char* p1 = text;
+int main()  {
+    Frac f1 = {3, 4};
+    Frac f2 = {3, 5};
 
-  // Notice sizeof(p1) return size of the pointer not the array.
-  std::cout << "p1: \"" << p1 << "\" " << sizeof(p1) << std::endl;
-
-  const char* text2 = "Hello";
-  // Try to uncomment and you see you cannot assign const char* to char*
-  // because it would be to circumvent restrictions.
-  // char* p2 = text2;
 }
