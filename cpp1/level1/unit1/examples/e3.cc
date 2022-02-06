@@ -2,12 +2,8 @@
 
 
 int main() {
-  int counter = 0;
+    char cells[] = "01";
+    std::cout << cells[0] << std::endl;
 
-  while(counter < 10) {
-    std::cout << "counter=" << counter << std::endl;
-    counter++;
-  }
-
-  std::cout << counter << std::endl;
+    std::cout << cells[1] << std::endl;
 }
