@@ -12,7 +12,15 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
 
 set(CMAKE_CXX_STANDARD 17)
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 set(CMAKE_CXX_FLAGS -Wall)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+	set(CMAKE_CXX_FLAGS /EHsc)
+else()
+	message(FATAL_ERROR "Unsupported compiler")
+endif()
+
 
 set(EXT_LIBS_PATH ${PROJECT_SOURCE_DIR}/ext-libs)
 
@@ -30,4 +38,4 @@ file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
 add_subdirectory(boost-cmake)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/utils)
+#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/utils)

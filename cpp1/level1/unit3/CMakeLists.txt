@@ -5,5 +5,6 @@ set(ANYSOLO_UNIT 3)
 
 set(artifactPrefix "level1_unit3")
 set(unitDir ${CMAKE_CURRENT_LIST_DIR})
+set(unitLib 1)
 
 include(unit)
