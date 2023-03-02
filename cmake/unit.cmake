@@ -1,8 +1,5 @@
 if(DEFINED unitLib)
-    message(WARNING "-------------- Have lib: ${unitDir}/lib")
-
     file(GLOB LIB_SRC RELATIVE ${unitDir} ${unitDir}/lib/*.hh ${unitDir}/lib/*.cc)
-    message(WARNING "lib: ${artifactPrefix} ${LIB_SRC}")
     add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS})
     set_target_properties(${artifactPrefix} PROPERTIES LINKER_LANGUAGE CXX)
 endif()
