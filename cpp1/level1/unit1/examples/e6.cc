@@ -1,10 +1,20 @@
 #include <iostream>
 
+/*
+ * "for" loop has 3 part inside () separated by ;;
+ * for(init_stmt; cond; each_stmt)
+ *
+ * init_stmt    - Statement executed once at the start of the loop.
+ * cond         - loop condition, like in while loop.
+ * each_stmt    - executed at the end of each iteration.
+ *
+ * Each of those 3 parts can be empty
+ * This example shows when each part executed.
+ *
+ */
+
 
 int main() {
-  // "for" loop has 3 part inside () separated by ;;
-  // This example shows when each part executed.
-  // Part #2 works like the condition for while loop.
 
   int i = 0;
 
@@ -15,7 +25,4 @@ int main() {
     if(i++ == 3)
       break;
   }
-
-  // Uncomment the next line and you that variable "i" is visible only inside the loop
-  // std::cout << i << std::endl;
 }
