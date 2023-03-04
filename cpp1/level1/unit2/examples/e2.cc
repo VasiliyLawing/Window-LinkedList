@@ -7,7 +7,7 @@ int main() {
   std::cout << "iterating using pointer directly instead of [] " << std::endl;
   const char* p = str;
   for(; *p != 0; ++p) {
-    std::cout << *p << " " << std::endl;
+    std::cout << (unsigned long) (*p) << " " << std::endl;
   }
   std::cout << std::endl;
   --p;
