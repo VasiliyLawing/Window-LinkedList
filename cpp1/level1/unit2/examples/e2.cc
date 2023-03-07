@@ -1,20 +1,24 @@
 #include <iostream>
 
-
 int main() {
-  const char* str = "ABC";
+    // We use {} blocks to have locale variable without making a function.
+    {
+        std::cout << "#1" << std::endl;
+        int ar[5];
 
-  std::cout << "iterating using pointer directly instead of [] " << std::endl;
-  const char* p = str;
-  for(; *p != 0; ++p) {
-    std::cout << (unsigned long) (*p) << " " << std::endl;
-  }
-  std::cout << std::endl;
-  --p;
+        for (int i = 0; i < 5; i++)
+            ar[i] = i * 10;
 
+        for (int i = 0; i < 5; i++)
+            std::cout << "ar[" << i << "]= " << ar[i] << std::endl;
+    }
 
-  do {
-    std::cout << *p << " " << std::endl;
-  } while(p-- != str);
-  std::cout << std::endl;
+    {
+        std::cout << "#2" << std::endl;
+        int ar[5] = {11,12,13,14,15};
+
+        // Try to change i < 5 to something like i < 7. There are not any safety checks, only maximum perfomance.
+        for (int i = 0; i < 5; i++)
+            std::cout << "ar[" << i << "]= " << ar[i] << std::endl;
+    }
 }

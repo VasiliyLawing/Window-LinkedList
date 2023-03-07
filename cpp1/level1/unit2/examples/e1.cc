@@ -1,6 +1,4 @@
-
 #include <iostream>
-
 
 // You can get size of any variable or type via "sizeof"
 
@@ -15,7 +13,6 @@ int main() {
     std::cout << "size of n= " << sizeof(n) << std::endl;
     std::cout << "size of m= " << sizeof(m) << std::endl;
     std::cout << "size of k= " << sizeof(k) << std::endl;
-
 
     std::cout << "Types:" << std::endl;
     std::cout << "size of int= " << sizeof(int) << std::endl;
