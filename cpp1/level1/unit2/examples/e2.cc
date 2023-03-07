@@ -6,6 +6,8 @@ int main() {
         std::cout << "#1" << std::endl;
         int ar[5];
 
+        std::cout << "size of ar: " << sizeof(ar) << std::endl;
+
         for (int i = 0; i < 5; i++)
             ar[i] = i * 10;
 
@@ -13,12 +15,16 @@ int main() {
             std::cout << "ar[" << i << "]= " << ar[i] << std::endl;
     }
 
+    // Initializing array right at its creation. It is usually better to not leave data not initialized.
     {
-        std::cout << "#2" << std::endl;
+        std::cout << "\n#2" << std::endl;
         int ar[5] = {11,12,13,14,15};
 
         // Try to change i < 5 to something like i < 7. There are not any safety checks, only maximum perfomance.
         for (int i = 0; i < 5; i++)
             std::cout << "ar[" << i << "]= " << ar[i] << std::endl;
+
+        // How do you think what is this?
+        std::cout << ar << std::endl;
     }
 }
