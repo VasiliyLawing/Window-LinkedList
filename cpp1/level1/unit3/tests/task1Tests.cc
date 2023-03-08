@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include <tasks/tasks.h>
+#include "tasks/old/tasks.h"
 #include <lib/list2.hh>
 
 #define CATCH_CONFIG_MAIN

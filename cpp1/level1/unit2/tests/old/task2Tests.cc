@@ -1,8 +1,8 @@
 #include <sstream>
 #define CATCH_CONFIG_MAIN
-#include <ext-libs/catch.hpp>
+#include "ext-libs/catch.hpp"
 
-#include <tasks/tasks.h>
+#include "tasks/old/tasks.h"
 
 
 TEST_CASE("Level1 Unit2 Task2") {
