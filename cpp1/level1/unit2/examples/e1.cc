@@ -4,7 +4,7 @@
 
 int main() {
     char ch = 'a';
-    int n = 1;
+    short n = 1;
     int m = 1;
     long k = 1;
 
@@ -18,4 +18,3 @@ int main() {
     std::cout << "size of int= " << sizeof(int) << std::endl;
     std::cout << "size of long= " << sizeof(long) << std::endl;
 }
-

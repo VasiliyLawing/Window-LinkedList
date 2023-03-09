@@ -20,7 +20,7 @@ int main() {
         std::cout << "\n#2" << std::endl;
         int ar[5] = {11,12,13,14,15};
 
-        // Try to change i < 5 to something like i < 7. There are not any safety checks, only maximum perfomance.
+        // Try to change i < 5 to something like i < 7. There are not any safety checks, only maximum performance.
         for (int i = 0; i < 5; i++)
             std::cout << "ar[" << i << "]= " << ar[i] << std::endl;
 
