@@ -1,5 +1,5 @@
 file(GLOB LIB_SRC lib/*.hh lib/*.cc)
-add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS})
+add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS} ../cpp1/level1/unit3/tasks/tasks.h)
 set_target_properties(${artifactPrefix} PROPERTIES LINKER_LANGUAGE CXX)
 
 file( GLOB EXAMPLE_SOURCES RELATIVE ${unitDir}/examples examples/*.cc )
