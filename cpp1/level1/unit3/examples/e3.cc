@@ -1,31 +1,44 @@
-#include "lib/list2.hh"
 #include <iostream>
 
 
 int main() {
-  using namespace Cpp1::Unit3;
+    int ar[5] = {11, 12, 13, 14, 15};
 
-  IntList* list = intListCreate();
+    {
+        std::cout << "#1" << std::endl;
 
-  std::cout << "#1:" << std::endl;
-  intListPrint(list);
+        // How do you think, why do we use "sizeof(ar) / sizeof(int)" instead of 5?
+        for (int i = 0; i < sizeof(ar) / sizeof(int); i++)
+            std::cout << "ar[" << i << "]= " << ar[i] << std::endl;
+    }
 
-  for(int i = 10; i > 0; --i) {
-    intListAddToHead(list, i);
-  }
-  std::cout << std::endl;
+    {
+        std::cout << "\n#2" << std::endl;
 
-  std::cout << "#2:" << std::endl;
-  intListPrint(list);
-  std::cout << std::endl;
+        // "auto" will work as int* here. "int*" means pointer to int aka address of int in memory.
+        auto p = ar;
 
+        for (int i = 0; i < sizeof(ar) / sizeof(int); i++)
+            std::cout << "ar[" << i << "]= " << *(p + i) << std::endl;
+    }
 
-  std::cout << "#3:" << std::endl;
-  while (list->head != nullptr) {
-    intListRemoveFromHead(list);
-    intListPrint(list);
-    std::cout << std::endl;
-  }
+    {
+        std::cout << "\n#3" << std::endl;
 
-  intListDestroy(list);
+        auto p = ar;
+
+        for (int i = 0; i < sizeof(ar) / sizeof(ar[0]); i++,p++)
+            *p += 10;
+
+        // You can mix array form ar[i] and pointer form *p at your convenience.
+        // As long as you understand what are you doing. Which as you will see soon a general idea in C/C++.
+        for (int i = 0; i < sizeof(ar) / sizeof(ar[0]); i++)
+            std::cout << "ar[" << i << "]= " << ar[i] << std::endl;
+
+        std::cout << std::endl;
+
+        for (int i = 0; i < sizeof(ar) / sizeof(ar[0]); i++)
+            std::cout << "ar[" << i << "]= " << *(--p) << std::endl;
+
+    }
 }

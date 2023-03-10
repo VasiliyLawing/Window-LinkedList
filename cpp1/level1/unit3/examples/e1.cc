@@ -1,17 +1,20 @@
-#include "lib/list1.hh"
 #include <iostream>
 
-
+// You can get size of any variable or type via "sizeof"
 
 int main() {
-  using namespace Cpp1::Unit3;
+    char ch = 'a';
+    short n = 1;
+    int m = 1;
+    long k = 1;
 
-  IntListNode node3 = {30, nullptr};
-  IntListNode node2 = {20, &node3};
-  IntListNode node1 = {10, &node2};
+    std::cout << "Variables:" << std::endl;
+    std::cout << "size of ch= " << sizeof(ch) << std::endl;
+    std::cout << "size of n= " << sizeof(n) << std::endl;
+    std::cout << "size of m= " << sizeof(m) << std::endl;
+    std::cout << "size of k= " << sizeof(k) << std::endl;
 
-
-  for(const IntListNode* p = &node1; p != nullptr; p = p->next) {
-    std::cout << p->data << std::endl;
-  }
+    std::cout << "Types:" << std::endl;
+    std::cout << "size of int= " << sizeof(int) << std::endl;
+    std::cout << "size of long= " << sizeof(long) << std::endl;
 }

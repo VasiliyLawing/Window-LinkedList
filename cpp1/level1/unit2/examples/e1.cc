@@ -1,20 +1,14 @@
 #include <iostream>
 
-// You can get size of any variable or type via "sizeof"
+#include "fraction.hh"
+
 
 int main() {
-    char ch = 'a';
-    short n = 1;
-    int m = 1;
-    long k = 1;
+    Fraction f1 = {1, 2};
+    std::cout << "f1=" << f1.m << "/" << f1.n << std::endl;
 
-    std::cout << "Variables:" << std::endl;
-    std::cout << "size of ch= " << sizeof(ch) << std::endl;
-    std::cout << "size of n= " << sizeof(n) << std::endl;
-    std::cout << "size of m= " << sizeof(m) << std::endl;
-    std::cout << "size of k= " << sizeof(k) << std::endl;
-
-    std::cout << "Types:" << std::endl;
-    std::cout << "size of int= " << sizeof(int) << std::endl;
-    std::cout << "size of long= " << sizeof(long) << std::endl;
+    Fraction f2;
+    f2.m = 3;
+    f2.n = 4;
+    std::cout << "f2=" << f2.m << "/" << f2.n << std::endl;
 }

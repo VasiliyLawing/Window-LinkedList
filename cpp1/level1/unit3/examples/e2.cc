@@ -1,37 +1,30 @@
-#include "lib/list1.hh"
 #include <iostream>
 
-
-namespace Cpp1::Unit3::E2 {
-  using namespace Cpp1::Unit3;
-
-  IntListNode* createMyList() {
-    IntListNode* node3 = new IntListNode{30, nullptr};
-    IntListNode* node2 = new IntListNode{20, node3};
-    IntListNode* node1 = new IntListNode{10, node2};
-
-    return node1;
-  }
-
-  void printList(const IntListNode* head) {
-    for(const IntListNode* node = head; node != nullptr; node = node->next) {
-      std::cout << node->data << std::endl;
-    }
-  }
-
-  void destroyList(const IntListNode* head) {
-    for(const IntListNode* node = head; node != nullptr;) {
-      const IntListNode* next = node->next;
-      delete node;
-      node = next;
-    }
-  }
-}
-
 int main() {
-  using namespace Cpp1::Unit3::E2;
+    // We use {} blocks to have locale variable without making a function.
+    {
+        std::cout << "#1" << std::endl;
+        int ar[5];
 
-  const IntListNode* node = createMyList();
-  printList(node);
-  destroyList(node);
+        std::cout << "size of ar: " << sizeof(ar) << std::endl;
+
+        for (int i = 0; i < 5; i++)
+            ar[i] = i * 10;
+
+        for (int i = 0; i < 5; i++)
+            std::cout << "ar[" << i << "]= " << ar[i] << std::endl;
+    }
+
+    // Initializing array right at its creation. It is usually better to not leave data not initialized.
+    {
+        std::cout << "\n#2" << std::endl;
+        int ar[5] = {11,12,13,14,15};
+
+        // Try to change i < 5 to something like i < 7. There are not any safety checks, only maximum performance.
+        for (int i = 0; i < 5; i++)
+            std::cout << "ar[" << i << "]= " << ar[i] << std::endl;
+
+        // How do you think what is this?
+        std::cout << ar << std::endl;
+    }
 }
