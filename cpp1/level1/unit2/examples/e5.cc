@@ -1,19 +1,17 @@
 #include <iostream>
 
-struct Frac {
-    int m;
-    int n;
-    void print(const Frac* f) {
-        std::cout << f->m << "/" << f->n << std::endl;
-    }
+/*
+ * "&" makes a pointer to something
+ * "*" access to something via a pointer
+ */
 
-    static Frac mutiply(const Frac* f1, const Frac* f2){
-        return Frac{f1->m * f2->m,f1->n * f2->n};
-    }
-};
+int main() {
+    int m = 13;
 
-int main()  {
-    Frac f1 = {3, 4};
-    Frac f2 = {3, 5};
+    int* p = &m;
+    std::cout << *p << std::endl;
 
+    *p = 14;
+    std::cout << *p << std::endl;
+    std::cout << m << std::endl;
 }

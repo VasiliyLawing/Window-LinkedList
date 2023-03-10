@@ -1,6 +1,8 @@
-file(GLOB LIB_SRC lib/*.hh lib/*.cc)
-add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS} ../cpp1/level1/unit3/tasks/tasks.h)
-set_target_properties(${artifactPrefix} PROPERTIES LINKER_LANGUAGE CXX)
+if(DEFINED unitLib)
+    file(GLOB LIB_SRC RELATIVE ${unitDir} ${unitDir}/lib/*.hh ${unitDir}/lib/*.cc)
+    add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS})
+    set_target_properties(${artifactPrefix} PROPERTIES LINKER_LANGUAGE CXX)
+endif()
 
 file( GLOB EXAMPLE_SOURCES RELATIVE ${unitDir}/examples examples/*.cc )
 foreach( afile ${EXAMPLE_SOURCES} )
@@ -8,7 +10,11 @@ foreach( afile ${EXAMPLE_SOURCES} )
     set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${exampleName})
 
     add_executable( ${fullTargetName} examples/${afile} )
-    target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
+
+    if(DEFINED unitLib)
+        target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
+    endif()
+
     set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${exampleName}" )
 endforeach( afile ${EXAMPLE_SOURCES} )
 
@@ -19,7 +25,7 @@ endforeach( afile ${EXAMPLE_SOURCES} )
 #    foreach( afile ${TASKS_SOURCES} )
 #        string( REPLACE ".cc" "" taskName ${afile} )
 #        set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${taskName})
-#
+#           
 #        add_executable( ${fullTargetName} tasks/${afile} )
 #        target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
 #        set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${taskName}" )

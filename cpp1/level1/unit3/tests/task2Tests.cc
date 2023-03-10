@@ -1,7 +1,7 @@
 
 #include <sstream>
 
-#include <tasks/tasks.h>
+#include "tasks/old/tasks.h"
 #include <lib/list2.hh>
 #include <tests/lib/listUtils.hh>
 
