@@ -1,5 +1,6 @@
 #include <iostream>
 
+// We insert contents of file fraction.hh inhere.
 #include "fraction.hh"
 
 
@@ -11,4 +12,7 @@ int main() {
     f2.m = 3;
     f2.n = 4;
     std::cout << "f2=" << f2.m << "/" << f2.n << std::endl;
+
+    f2 = {5, 7};
+    std::cout << "f2.2=" << f2.m << "/" << f2.n << std::endl;
 }
