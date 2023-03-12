@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.7)
 
 project(vpc)
 
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+
 file(GLOB LIB_SRC RELATIVE ${PROJECT_SOURCE_DIR} *.hh *.cc)
 add_library(vpc ${LIB_SRC} ${EXT_LIBS_HEADERS})
 set_target_properties(vpc PROPERTIES LINKER_LANGUAGE CXX)
@@ -16,7 +21,7 @@ foreach( afile ${EXAMPLE_SOURCES} )
 	set(fullTargetName vpc_${exampleName})
 
 	add_executable( ${fullTargetName} examples/${afile} )
-	target_link_libraries(${fullTargetName} ${wxWidgets_LIBRARIES})
+	target_link_libraries(${fullTargetName} ${SDL2_LIBRARIES} vpc)
 
 #		target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
 
