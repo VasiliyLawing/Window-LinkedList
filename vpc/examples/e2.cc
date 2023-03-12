@@ -34,8 +34,8 @@ int main(int argc, char* argv[]) {
     }
     SDL_UnlockTexture(Tile);
 
-    SDL_Rect destination = { 320, 240, 8, 8 };
-    SDL_RenderCopy(renderer, Tile, NULL, &destination);
+//    SDL_Rect destination = { 320, 240, 8, 8 };
+    SDL_RenderCopy(renderer, Tile, NULL, nullptr);
     SDL_RenderPresent(renderer);
     SDL_Delay(3000);
 

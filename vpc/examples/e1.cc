@@ -26,12 +26,12 @@ void dispayTest() {
 
 //        std::this_thread::sleep_for(std::chrono::nanoseconds (delayMs));
             timeMs += delayMs;
-        }
 
-        if (color == 0xFF)
-            color = 0;
-        else
-            color++;
+            if (color == 0xFF)
+                color = 0;
+            else
+                color++;
+        }
     }
 }
 

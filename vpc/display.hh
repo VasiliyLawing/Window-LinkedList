@@ -23,7 +23,7 @@ private:
     std::unique_ptr<std::thread> m_thread;
     std::atomic<bool> m_threadStopping = false;
 
-    pixel_t* m_memory;
+    pixel_t* m_memory = nullptr;
 
 public:
     Display(const std::string& title, int width, int height);
