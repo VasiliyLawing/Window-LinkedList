@@ -9,7 +9,6 @@ void print(Fraction f) {
 }
 
 
-
 int main() {
     Fraction f1 = {1, 2};
 

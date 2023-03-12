@@ -7,6 +7,9 @@ set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.71.0)
 
+find_package(wxWidgets REQUIRED COMPONENTS net core base)
+include(${wxWidgets_USE_FILE})
+
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 #set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
@@ -29,7 +32,7 @@ include(CTest)
 enable_testing()
 include(Catch)
 
-include_directories(.)
+include_directories(/usr/local/lib/wx/include/gtk3-unicode-3.2 . /usr/local/include/wx-3.2)
 
 set(MAIN_BIN_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
@@ -38,4 +41,4 @@ file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
 add_subdirectory(boost-cmake)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
-#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/utils)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vpc)
