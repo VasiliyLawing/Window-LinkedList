@@ -1,7 +1,7 @@
 #include "display.hh"
 
-#include <SDL2/SDL.h>
 #include <sys/time.h>
+#include <iostream>
 
 
 static double time_in_ms(void) {
@@ -11,13 +11,38 @@ static double time_in_ms(void) {
 }
 
 
-void Display::run() {
+Display::Display(const std::string &title, int width, int height) {
+    m_title = title;
+    m_width = width;
+    m_height = height;
+
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window *window = SDL_CreateWindow("Pixel formats" , 0, 0, 1920, 1080, 0);
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    m_sdlWindow = SDL_CreateWindow(m_title.c_str() , 0, 0, m_width, m_height, 0);
+    m_renderer = SDL_CreateRenderer(m_sdlWindow, -1, SDL_RENDERER_ACCELERATED);
+
+    m_texture = SDL_CreateTexture(
+        m_renderer,
+        SDL_PIXELFORMAT_ARGB8888,
+        SDL_TEXTUREACCESS_STREAMING,
+        m_width, m_height
+    );
+
+    m_thread = std::make_unique<std::thread>( [this] {threadFunc();} );
+}
+
+Display::~Display() {
+    m_threadStopping = true;
+    m_thread->join();
+
+    SDL_DestroyTexture(m_texture);
+    SDL_DestroyRenderer(m_renderer);
+    SDL_DestroyWindow(m_sdlWindow);
+}
+
+void Display::threadFunc() {
     double last_frame = time_in_ms();
-    while (1) {
-        int width, height;
+
+    while (!m_threadStopping) {
         SDL_Event e;
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) {
@@ -25,16 +50,14 @@ void Display::run() {
             }
         }
 
-        SDL_GetWindowSize(window, &width, &height);
-        SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, width, height);
-        Uint32 *pixels = (Uint32 *)malloc(width * height * sizeof(*pixels));
+        Uint32 *pixels = (Uint32 *)malloc(m_width * m_height * sizeof(*pixels));
         /* fill buffer with blue pixels */
 
         int color = 0;
 
-        for (int y = 0; y < height; y++) {
-            Uint32 *row = pixels + y * width;
-            for (int x = 0; x < width; x++) {
+        for (int y = 0; y < m_height; y++) {
+            Uint32 *row = pixels + y * m_width;
+            for (int x = 0; x < m_width; x++) {
                 row[x] = 0xFF << 3*8 | color;
 
                 if(color == 0xFFFFFF)
@@ -42,16 +65,14 @@ void Display::run() {
                 else
                     color++;
             }
-
         }
 
         double update_begin = time_in_ms();
-        SDL_UpdateTexture(texture, NULL, pixels, width * sizeof(*pixels));
+        SDL_UpdateTexture(m_texture, NULL, pixels, m_width * sizeof(*pixels));
         double update_end = time_in_ms();
-        SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
-        SDL_RenderCopy(renderer, texture, NULL, NULL);
-        SDL_RenderPresent(renderer);
-        SDL_DestroyTexture(texture);
+        SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_NONE);
+        SDL_RenderCopy(m_renderer, m_texture, NULL, NULL);
+        SDL_RenderPresent(m_renderer);
         free(pixels);
         double this_frame = time_in_ms();
         printf("frame took %fms\n", this_frame - last_frame);
