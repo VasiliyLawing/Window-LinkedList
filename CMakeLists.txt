@@ -7,9 +7,6 @@ set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.71.0)
 
-find_package(wxWidgets REQUIRED COMPONENTS net core base)
-include(${wxWidgets_USE_FILE})
-
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 #set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )

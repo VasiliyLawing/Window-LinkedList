@@ -13,8 +13,8 @@ public:
 
 private:
     std::string     m_title;
-    int m_width;
-    int m_height;
+    int             m_width;
+    int             m_height;
 
     SDL_Window*     m_sdlWindow;
     SDL_Renderer*   m_renderer;
