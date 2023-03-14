@@ -3,7 +3,9 @@
 
 
 void dispayTest() {
-    Display display("Virtual display", 1929, 1080);
+    GraphicDisplay display("Virtual display", 1929, 1080);
+    display.turn(true);
+
     auto* displayMemory = display.getMemory();
 
     int color = 0;
