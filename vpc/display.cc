@@ -177,10 +177,6 @@ void TextDisplay::drawCharacter(int row, int column) {
     int asciiCode = chData;
     int texIndex = asciiCode - (65-33);
 
-    if(asciiCode != 0) {
-        std::cerr << asciiCode << " " << texIndex << std::endl;
-    }
-
     SDL_SetTextureColorMod(m_fontTexture, 0x0, 0x80, 0x0);
 
     int texRow = texIndex / m_columnsInTexture;
