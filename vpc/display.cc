@@ -47,8 +47,6 @@ void AbstractDisplay::uiProcessInit() {
 
     m_sdlWindow = SDL_CreateWindow(m_title.c_str() , 0, 0, m_width, m_height, 0);
     m_renderer = SDL_CreateRenderer(m_sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-    std::cerr << "WH: " << SDL_GetWindowSurface(m_sdlWindow)->h << std::endl;
 }
 
 void AbstractDisplay::uiProcessShutdown() {
