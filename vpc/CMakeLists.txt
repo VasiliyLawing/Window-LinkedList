@@ -6,7 +6,7 @@ project(vpc)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-find_package(SDL2_IMAGE REQUIRED)
+#find_package(SDL2_IMAGE REQUIRED)
 
 
 file(GLOB LIB_SRC RELATIVE ${PROJECT_SOURCE_DIR} *.hh *.cc)
