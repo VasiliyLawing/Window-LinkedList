@@ -47,8 +47,6 @@ void AbstractDisplay::uiProcessInit() {
 
     m_sdlWindow = SDL_CreateWindow(m_title.c_str() , 0, 0, m_width, m_height, 0);
     m_renderer = SDL_CreateRenderer(m_sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-    std::cerr << "WH: " << SDL_GetWindowSurface(m_sdlWindow)->h << std::endl;
 }
 
 void AbstractDisplay::uiProcessShutdown() {
@@ -130,27 +128,29 @@ void GraphicDisplay::drawFrame() {
 
 ////////////////////////
 // TextDisplay
-TextDisplay::TextDisplay(const std::string &title, const TextModeData& modeData):
+TextDisplay::TextDisplay(const std::string& title, const Resolution& resolution, const Font& font):
     AbstractDisplay(
         title,
-        modeData.columns * modeData.fontWidth, modeData.rows * modeData.fontHeight,
-        modeData.columns * modeData.rows
+        resolution.width, resolution.height,
+        resolution.columns * resolution.rows
     )
 {
-    m_textModeData = modeData;
+    m_font = font;
+    m_resolution = resolution;
 }
 
 void TextDisplay::uiProcessInit() {
     AbstractDisplay::uiProcessInit();
 
-    m_fontTexture = IMG_LoadTexture(getRenderer(), m_textModeData.fontName.c_str());
+    std::string fontFilename = std::string("vpc/") + m_font.filename;
+    m_fontTexture = IMG_LoadTexture(getRenderer(), fontFilename.c_str());
     if(m_fontTexture == nullptr) {
-        throw std::runtime_error("Cannot load font '" + m_textModeData.fontName + "'");
+        throw std::runtime_error("Cannot load font '" + fontFilename + "'");
     }
 
     SDL_Point size;
     SDL_QueryTexture(m_fontTexture, NULL, NULL, &size.x, &size.y);
-    m_columnsInTexture = size.x / m_textModeData.fontWidth;
+    m_columnsInTexture = size.x / m_font.width;
 }
 
 void TextDisplay::uiProcessShutdown() {
@@ -163,8 +163,8 @@ void TextDisplay::uiProcessShutdown() {
 }
 
 void TextDisplay::drawFrame() {
-    for(int row = 0; row < m_textModeData.rows; ++row) {
-        for (int col = 0; col < m_textModeData.columns; ++col) {
+    for(int row = 0; row < m_resolution.rows; ++row) {
+        for (int col = 0; col < m_resolution.columns; ++col) {
             drawCharacter(row, col);
         }
     }
@@ -173,13 +173,9 @@ void TextDisplay::drawFrame() {
 }
 
 void TextDisplay::drawCharacter(int row, int column) {
-    memory_t chData = getMemory()[row * m_textModeData.columns + column];
+    memory_t chData = getMemory()[row * m_resolution.columns + column];
     int asciiCode = chData;
     int texIndex = asciiCode - (65-33);
-
-    if(asciiCode != 0) {
-        std::cerr << asciiCode << " " << texIndex << std::endl;
-    }
 
     SDL_SetTextureColorMod(m_fontTexture, 0x0, 0x80, 0x0);
 
@@ -188,17 +184,18 @@ void TextDisplay::drawCharacter(int row, int column) {
 
     int chWidth = 16;
     int chHeight = 16;
-    int padY = 5;
-    int padX = 5;
+
+    int padX = (m_resolution.width - m_resolution.columns * m_font.width)/2;
+    int padY = (m_resolution.height - m_resolution.rows * m_font.height)/2;
 
     SDL_Rect srcRect, dstRect;
-    srcRect.x = texColumn * m_textModeData.fontWidth;
-    srcRect.y = texRow * m_textModeData.fontHeight;
+    srcRect.x = texColumn * m_font.width;
+    srcRect.y = texRow * m_font.height;
     srcRect.w = chWidth;
     srcRect.h = chHeight;
 
-    dstRect.x = padX + column * m_textModeData.fontWidth;
-    dstRect.y = padY + row * m_textModeData.fontHeight;
+    dstRect.x = padX + column * m_font.width;
+    dstRect.y = padY + row * m_font.height;
     dstRect.w = chWidth;
     dstRect.h = chHeight;
 

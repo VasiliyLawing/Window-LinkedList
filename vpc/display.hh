@@ -58,12 +58,17 @@ private:
 };
 
 
-struct TextModeData {
-    int         columns;
-    int         rows;
-    int         fontWidth;
-    int         fontHeight;
-    std::string fontName;
+struct Font {
+    std::string filename;
+    int         width;
+    int         height;
+};
+
+struct Resolution {
+    int width;
+    int height;
+    int columns;
+    int rows;
 };
 
 
@@ -85,11 +90,17 @@ private:
     SDL_Texture*    m_texture;
 
     SDL_Texture*    m_fontTexture = nullptr;
-    TextModeData    m_textModeData;
+
+    Font            m_font;
+    Resolution      m_resolution;
+
     int             m_columnsInTexture;
 
 public:
-    TextDisplay(const std::string& title, const TextModeData& textModeData);
+    TextDisplay(const std::string& title, const Resolution& resolution, const Font& font);
+
+    const Resolution& getResolution() const     {return m_resolution;}
+    const Font& getFont() const                 {return m_font;}
 
 protected:
     void uiProcessInit();
