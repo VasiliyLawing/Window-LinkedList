@@ -3,22 +3,11 @@
 
 
 void dispayTest() {
-
-/*
-    TextModeData textModeData;
-    textModeData.rows       = 25;
-    textModeData.columns    = 80;
-    textModeData.fontWidth  = 16;
-    textModeData.fontHeight = 16;
-    textModeData.fontName   = "vpc/font-16x16-13.png";
-*/
-
     Font font_16x16_13 = {"font-16x16-13.png", 16, 16};
     Resolution res_120x67_1920x1080 = {1920, 1080, 120, 67};
-    Resolution res_80x25_1920x1080 = {1280, 720, 80, 45};
+    Resolution res_80x45_1920x1080 = {1280, 720, 80, 45};
 
-
-    TextDisplay display("Virtual display", res_80x25_1920x1080, font_16x16_13);
+    TextDisplay display("Virtual display", res_80x45_1920x1080, font_16x16_13);
     display.turn(true);
     auto* displayMemory = display.getMemory();
 
