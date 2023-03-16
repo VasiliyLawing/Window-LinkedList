@@ -3,7 +3,7 @@
 
 
 void dispayTest() {
-    GraphicDisplay display("Virtual display", 1929, 1080);
+    Vpc::GraphicDisplay display("Virtual display", 1929, 1080);
     display.turn(true);
 
     auto* displayMemory = display.getMemory();

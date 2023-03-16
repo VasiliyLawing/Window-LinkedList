@@ -35,9 +35,6 @@ set(MAIN_BIN_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(MAIN_LIB_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 
-message("path: ${CMAKE_LIBRARY_PATH}")
-
-
 file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
 add_subdirectory(boost-cmake)

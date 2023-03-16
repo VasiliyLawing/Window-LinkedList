@@ -3,11 +3,7 @@
 
 
 void dispayTest() {
-    Font font_16x16_13 = {"font-16x16-13.png", 16, 16};
-    Resolution res_120x67_1920x1080 = {1920, 1080, 120, 67};
-    Resolution res_80x45_1920x1080 = {1280, 720, 80, 45};
-
-    TextDisplay display("Virtual display", res_80x45_1920x1080, font_16x16_13);
+    Vpc::TextDisplay display("Virtual display", Vpc::Resolutions::r80x45_1920x1080, Vpc::Fonts::f16x16_13);
     display.turn(true);
     auto* displayMemory = display.getMemory();
 

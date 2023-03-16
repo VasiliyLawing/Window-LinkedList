@@ -3,201 +3,204 @@
 #include <sys/time.h>
 #include <iostream>
 
+namespace Vpc {
 
-static double time_in_ms(void) {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return tv.tv_sec * 1000.0 + tv.tv_usec / 1000.0;
-}
+    static double time_in_ms(void) {
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        return tv.tv_sec * 1000.0 + tv.tv_usec / 1000.0;
+    }
 
 
 ///////////////////////////
 // AbstractDisplay
-AbstractDisplay::AbstractDisplay(const std::string& title, int width, int height, int memorySize) {
-    m_title = title;
-    m_width = width;
-    m_height = height;
-    m_memorySize = memorySize;
-    m_memory = new memory_t [memorySize];
-}
-
-AbstractDisplay::~AbstractDisplay() {
-    if(isTurnedOn())
-        turn(false);
-
-    m_thread->join();
-    delete[] m_memory;
-}
-
-void AbstractDisplay::turn(bool on) {
-    if(on) {
-        m_threadStopping = false;
-        m_thread = std::make_unique<std::thread>([this] {
-            uiProcess();
-            m_turnedOn = false;
-        });
+    AbstractDisplay::AbstractDisplay(const std::string &title, int width, int height, int memorySize) {
+        m_title = title;
+        m_width = width;
+        m_height = height;
+        m_memorySize = memorySize;
+        m_memory = new memory_t[memorySize];
     }
-    else
-        m_threadStopping = true;
-}
 
-void AbstractDisplay::uiProcessInit() {
-    SDL_setenv("SDL_DEBUG", "1", 1);
-    SDL_Init(SDL_INIT_EVERYTHING);
+    AbstractDisplay::~AbstractDisplay() {
+        if (isTurnedOn())
+            turn(false);
 
-    m_sdlWindow = SDL_CreateWindow(m_title.c_str() , 0, 0, m_width, m_height, 0);
-    m_renderer = SDL_CreateRenderer(m_sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-}
+        m_thread->join();
+        delete[] m_memory;
+    }
 
-void AbstractDisplay::uiProcessShutdown() {
-    SDL_DestroyRenderer(m_renderer);
-    SDL_DestroyWindow(m_sdlWindow);
-}
+    void AbstractDisplay::turn(bool on) {
+        if (on) {
+            m_threadStopping = false;
+            m_thread = std::make_unique<std::thread>([this] {
+                uiProcess();
+                m_turnedOn = false;
+            });
+        } else
+            m_threadStopping = true;
+    }
 
-void AbstractDisplay::uiProcess() {
-    uiProcessInit();
-    m_turnedOn = true;
+    void AbstractDisplay::uiProcessInit() {
+        SDL_setenv("SDL_DEBUG", "1", 1);
+        SDL_Init(SDL_INIT_EVERYTHING);
 
-    m_lastFrameTime = time_in_ms();
+        m_sdlWindow = SDL_CreateWindow(m_title.c_str(), 0, 0, m_width, m_height, 0);
+        m_renderer = SDL_CreateRenderer(m_sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    }
 
-    int counter = 0;
+    void AbstractDisplay::uiProcessShutdown() {
+        SDL_DestroyRenderer(m_renderer);
+        SDL_DestroyWindow(m_sdlWindow);
+    }
 
-    while (!m_threadStopping) {
-        SDL_Event e;
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) {
-                return;
+    void AbstractDisplay::uiProcess() {
+        uiProcessInit();
+        m_turnedOn = true;
+
+        m_lastFrameTime = time_in_ms();
+
+        int counter = 0;
+
+        while (!m_threadStopping) {
+            SDL_Event e;
+            while (SDL_PollEvent(&e)) {
+                if (e.type == SDL_QUIT) {
+                    return;
+                }
             }
+
+            drawFrame();
+
+            double thisFrameTime = time_in_ms();
+
+            if (counter++ % 1000 == 0) {
+                printf("frame took %fms\n", thisFrameTime - m_lastFrameTime);
+            }
+
+            m_lastFrameTime = thisFrameTime;
         }
 
-        drawFrame();
-
-        double thisFrameTime = time_in_ms();
-
-        if(counter++ % 1000 == 0) {
-            printf("frame took %fms\n", thisFrameTime - m_lastFrameTime);
-        }
-
-        m_lastFrameTime = thisFrameTime;
+        uiProcessShutdown();
     }
-
-    uiProcessShutdown();
-}
 
 
 //////////////////////////////
 // GraphicDisplay
-GraphicDisplay::GraphicDisplay(const std::string& title, int width, int height):
-    AbstractDisplay(title, width, height, width * height)
-{}
+    GraphicDisplay::GraphicDisplay(const std::string &title, int width, int height) :
+            AbstractDisplay(title, width, height, width * height) {}
 
-void GraphicDisplay::uiProcessInit() {
-    AbstractDisplay::uiProcessInit();
+    void GraphicDisplay::uiProcessInit() {
+        AbstractDisplay::uiProcessInit();
 
-    m_texture = SDL_CreateTexture(
-            getRenderer(),
-            SDL_PIXELFORMAT_ARGB8888,
-            SDL_TEXTUREACCESS_STREAMING,
-            getWidth(), getHeight()
-    );
+        m_texture = SDL_CreateTexture(
+                getRenderer(),
+                SDL_PIXELFORMAT_ARGB8888,
+                SDL_TEXTUREACCESS_STREAMING,
+                getWidth(), getHeight()
+        );
 
-    SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_NONE);
-}
-
-void GraphicDisplay::uiProcessShutdown() {
-    if(m_texture != nullptr) {
-        SDL_DestroyTexture(m_texture);
-        m_texture = nullptr;
+        SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_NONE);
     }
 
-    AbstractDisplay::uiProcessShutdown();
-}
+    void GraphicDisplay::uiProcessShutdown() {
+        if (m_texture != nullptr) {
+            SDL_DestroyTexture(m_texture);
+            m_texture = nullptr;
+        }
+
+        AbstractDisplay::uiProcessShutdown();
+    }
 
 
-void GraphicDisplay::drawFrame() {
-    int pitch;
-    char* tex;
-    SDL_LockTexture(m_texture, nullptr, (void**)&tex, &pitch);
-    memcpy(tex, getMemory(), pitch * getHeight());
-    SDL_UnlockTexture(m_texture);
+    void GraphicDisplay::drawFrame() {
+        int pitch;
+        char *tex;
+        SDL_LockTexture(m_texture, nullptr, (void **) &tex, &pitch);
+        memcpy(tex, getMemory(), pitch * getHeight());
+        SDL_UnlockTexture(m_texture);
 
-    SDL_RenderCopy(getRenderer(), m_texture, NULL, NULL);
-    SDL_RenderPresent(getRenderer());
-}
+        SDL_RenderCopy(getRenderer(), m_texture, NULL, NULL);
+        SDL_RenderPresent(getRenderer());
+    }
 
 
 ////////////////////////
 // TextDisplay
-TextDisplay::TextDisplay(const std::string& title, const Resolution& resolution, const Font& font):
-    AbstractDisplay(
-        title,
-        resolution.width, resolution.height,
-        resolution.columns * resolution.rows
-    )
-{
-    m_font = font;
-    m_resolution = resolution;
-}
-
-void TextDisplay::uiProcessInit() {
-    AbstractDisplay::uiProcessInit();
-
-    std::string fontFilename = std::string("vpc/") + m_font.filename;
-    m_fontTexture = IMG_LoadTexture(getRenderer(), fontFilename.c_str());
-    if(m_fontTexture == nullptr) {
-        throw std::runtime_error("Cannot load font '" + fontFilename + "'");
+    TextDisplay::TextDisplay(const std::string &title, const Resolution &resolution, const Font &font) :
+            AbstractDisplay(
+                    title,
+                    resolution.width, resolution.height,
+                    resolution.columns * resolution.rows
+            ) {
+        m_font = font;
+        m_resolution = resolution;
     }
 
-    SDL_Point size;
-    SDL_QueryTexture(m_fontTexture, NULL, NULL, &size.x, &size.y);
-    m_columnsInTexture = size.x / m_font.width;
-}
+    void TextDisplay::uiProcessInit() {
+        AbstractDisplay::uiProcessInit();
 
-void TextDisplay::uiProcessShutdown() {
-    AbstractDisplay::uiProcessShutdown();
+        std::string fontFilename = std::string("vpc/") + m_font.filename;
+        m_fontTexture = IMG_LoadTexture(getRenderer(), fontFilename.c_str());
+        if (m_fontTexture == nullptr) {
+            throw std::runtime_error("Cannot load font '" + fontFilename + "'");
+        }
 
-    if(m_fontTexture != nullptr) {
-        SDL_DestroyTexture(m_fontTexture);
-        m_fontTexture = nullptr;
+        SDL_Point size;
+        SDL_QueryTexture(m_fontTexture, NULL, NULL, &size.x, &size.y);
+        m_columnsInTexture = size.x / m_font.width;
     }
-}
 
-void TextDisplay::drawFrame() {
-    for(int row = 0; row < m_resolution.rows; ++row) {
-        for (int col = 0; col < m_resolution.columns; ++col) {
-            drawCharacter(row, col);
+    void TextDisplay::uiProcessShutdown() {
+        AbstractDisplay::uiProcessShutdown();
+
+        if (m_fontTexture != nullptr) {
+            SDL_DestroyTexture(m_fontTexture);
+            m_fontTexture = nullptr;
         }
     }
 
-    SDL_RenderPresent(getRenderer());
-}
+    void TextDisplay::drawFrame() {
+        for (int row = 0; row < m_resolution.rows; ++row) {
+            for (int col = 0; col < m_resolution.columns; ++col) {
+                drawCharacter(row, col);
+            }
+        }
 
-void TextDisplay::drawCharacter(int row, int column) {
-    memory_t chData = getMemory()[row * m_resolution.columns + column];
-    int asciiCode = chData;
-    int texIndex = asciiCode - (65-33);
+        SDL_RenderPresent(getRenderer());
+    }
 
-    SDL_SetTextureColorMod(m_fontTexture, 0x0, 0x80, 0x0);
+    void TextDisplay::drawCharacter(int row, int column) {
+        memory_t chData = getMemory()[row * m_resolution.columns + column];
+        int asciiCode = chData;
+        int texIndex = asciiCode - (65 - 33);
 
-    int texRow = texIndex / m_columnsInTexture;
-    int texColumn = texIndex % m_columnsInTexture;
+        SDL_SetTextureColorMod(m_fontTexture, 0x0, 0x80, 0x0);
 
-    int chWidth = 16;
-    int chHeight = 16;
+        int texRow = texIndex / m_columnsInTexture;
+        int texColumn = texIndex % m_columnsInTexture;
 
-    int padX = (m_resolution.width - m_resolution.columns * m_font.width)/2;
-    int padY = (m_resolution.height - m_resolution.rows * m_font.height)/2;
+        int chWidth = 16;
+        int chHeight = 16;
 
-    SDL_Rect srcRect, dstRect;
-    srcRect.x = texColumn * m_font.width;
-    srcRect.y = texRow * m_font.height;
-    srcRect.w = chWidth;
-    srcRect.h = chHeight;
+        int padX = (m_resolution.width - m_resolution.columns * m_font.width) / 2;
+        int padY = (m_resolution.height - m_resolution.rows * m_font.height) / 2;
 
-    dstRect.x = padX + column * m_font.width;
-    dstRect.y = padY + row * m_font.height;
-    dstRect.w = chWidth;
-    dstRect.h = chHeight;
+        SDL_Rect srcRect, dstRect;
+        srcRect.x = texColumn * m_font.width;
+        srcRect.y = texRow * m_font.height;
+        srcRect.w = chWidth;
+        srcRect.h = chHeight;
 
-    SDL_RenderCopy(getRenderer(), m_fontTexture, &srcRect, &dstRect);
+        dstRect.x = padX + column * m_font.width;
+        dstRect.y = padY + row * m_font.height;
+        dstRect.w = chWidth;
+        dstRect.h = chHeight;
+
+        SDL_RenderCopy(getRenderer(), m_fontTexture, &srcRect, &dstRect);
+    }
+
+    Vpc::Font font_16x16_13 = {"font-16x16-13.png", 16, 16};
+    Vpc::Resolution res_120x67_1920x1080 = {1920, 1080, 120, 67};
+    Vpc::Resolution res_80x45_1920x1080 = {1280, 720, 80, 45};
 }

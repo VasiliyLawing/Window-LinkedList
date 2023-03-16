@@ -7,104 +7,121 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+namespace Vpc {
 
-class AbstractDisplay {
-public:
-    using memory_t = std::uint32_t;
+    class AbstractDisplay {
+    public:
+        using memory_t = std::uint32_t;
 
-private:
-    std::string m_title;
-    int m_width;
-    int m_height;
+    private:
+        std::string m_title;
+        int m_width;
+        int m_height;
 
-    SDL_Window *m_sdlWindow;
-    SDL_Renderer *m_renderer;
+        SDL_Window *m_sdlWindow;
+        SDL_Renderer *m_renderer;
 
-    std::unique_ptr<std::thread> m_thread;
+        std::unique_ptr<std::thread> m_thread;
 
-    std::atomic<bool> m_turnedOn = false;
-    std::atomic<bool> m_threadStopping = false;
+        std::atomic<bool> m_turnedOn = false;
+        std::atomic<bool> m_threadStopping = false;
 
-    memory_t *m_memory = nullptr;
-    int m_memorySize;
+        memory_t *m_memory = nullptr;
+        int m_memorySize;
 
-    double m_lastFrameTime = 0;
+        double m_lastFrameTime = 0;
 
-public:
-    virtual ~AbstractDisplay();
+    public:
+        virtual ~AbstractDisplay();
 
-    void turn(bool on);
+        void turn(bool on);
+        bool isTurnedOn() const { return m_turnedOn; }
 
-    bool isTurnedOn() const { return m_turnedOn; }
+        int getWidth() const { return m_width; }
+        int getHeight() const { return m_height; }
 
-    int getWidth() const { return m_width; }
-    int getHeight() const { return m_height; }
+        memory_t *getMemory() const { return m_memory; }
 
-    memory_t *getMemory() const { return m_memory; }
-    int getMemorySize() const   { return m_memorySize; }
+        int getMemorySize() const { return m_memorySize; }
 
-protected:
-    AbstractDisplay(const std::string &title, int width, int height, int memorySize);
+    protected:
+        AbstractDisplay(const std::string &title, int width, int height, int memorySize);
 
-    virtual void uiProcessInit();
-    virtual void uiProcessShutdown();
-    virtual void drawFrame() = 0;
+        virtual void uiProcessInit();
 
-    SDL_Window*     getWindow()     {return m_sdlWindow;}
-    SDL_Renderer*   getRenderer()   {return m_renderer;}
+        virtual void uiProcessShutdown();
 
-private:
-    void uiProcess();
-};
+        virtual void drawFrame() = 0;
 
+        SDL_Window *getWindow() { return m_sdlWindow; }
 
-struct Font {
-    std::string filename;
-    int         width;
-    int         height;
-};
+        SDL_Renderer *getRenderer() { return m_renderer; }
 
-struct Resolution {
-    int width;
-    int height;
-    int columns;
-    int rows;
-};
+    private:
+        void uiProcess();
+    };
 
 
-class GraphicDisplay: public AbstractDisplay {
-    SDL_Texture*    m_texture;
+    struct Font {
+        std::string filename;
+        int width;
+        int height;
+    };
 
-public:
-    GraphicDisplay(const std::string& title, int width, int height);
-
-protected:
-    void uiProcessInit();
-    void uiProcessShutdown();
-    void drawFrame();
-};
+    struct Resolution {
+        int width;
+        int height;
+        int columns;
+        int rows;
+    };
 
 
-class TextDisplay: public AbstractDisplay {
-private:
-    SDL_Texture*    m_texture;
+    class GraphicDisplay : public AbstractDisplay {
+        SDL_Texture *m_texture;
 
-    SDL_Texture*    m_fontTexture = nullptr;
+    public:
+        GraphicDisplay(const std::string &title, int width, int height);
 
-    Font            m_font;
-    Resolution      m_resolution;
+    protected:
+        void uiProcessInit();
+        void uiProcessShutdown();
+        void drawFrame();
+    };
 
-    int             m_columnsInTexture;
 
-public:
-    TextDisplay(const std::string& title, const Resolution& resolution, const Font& font);
+    class TextDisplay : public AbstractDisplay {
+    private:
+        SDL_Texture *m_texture;
 
-    const Resolution& getResolution() const     {return m_resolution;}
-    const Font& getFont() const                 {return m_font;}
+        SDL_Texture *m_fontTexture = nullptr;
 
-protected:
-    void uiProcessInit();
-    void uiProcessShutdown();
-    void drawFrame();
-    void drawCharacter(int row, int column);
-};
+        Font m_font;
+        Resolution m_resolution;
+
+        int m_columnsInTexture;
+
+    public:
+        TextDisplay(const std::string &title, const Resolution &resolution, const Font &font);
+
+        const Resolution &getResolution() const { return m_resolution; }
+        const Font &getFont() const { return m_font; }
+
+    protected:
+        void uiProcessInit();
+
+        void uiProcessShutdown();
+
+        void drawFrame();
+
+        void drawCharacter(int row, int column);
+    };
+
+    namespace Fonts {
+        extern Vpc::Font f16x16_13;
+    }
+
+    namespace Resolutions {
+        extern Vpc::Resolution r120x67_1920x1080;
+        extern Vpc::Resolution r80x45_1920x1080;
+    }
+}
