@@ -19,7 +19,7 @@ namespace Vpc {
         m_width = width;
         m_height = height;
         m_memorySize = memorySize;
-        m_memory = new memory_t[memorySize];
+        m_memory = new std::byte[memorySize];
     }
 
     AbstractDisplay::~AbstractDisplay() {
@@ -88,7 +88,7 @@ namespace Vpc {
 //////////////////////////////
 // GraphicDisplay
     GraphicDisplay::GraphicDisplay(const std::string &title, int width, int height) :
-            AbstractDisplay(title, width, height, width * height) {}
+            AbstractDisplay(title, width, height, width * height * sizeof(std::uint32_t)) {}
 
     void GraphicDisplay::uiProcessInit() {
         AbstractDisplay::uiProcessInit();
@@ -127,11 +127,11 @@ namespace Vpc {
 
 ////////////////////////
 // TextDisplay
-    TextDisplay::TextDisplay(const std::string &title, const Resolution &resolution, const Font &font) :
+    TextDisplay::TextDisplay(const std::string &title, const Resolution& resolution, const Font &font) :
             AbstractDisplay(
                     title,
                     resolution.width, resolution.height,
-                    resolution.columns * resolution.rows
+                    resolution.columns * resolution.rows * sizeof(std::uint16_t)
             ) {
         m_font = font;
         m_resolution = resolution;
@@ -171,8 +171,10 @@ namespace Vpc {
     }
 
     void TextDisplay::drawCharacter(int row, int column) {
-        memory_t chData = getMemory()[row * m_resolution.columns + column];
-        int asciiCode = chData;
+        std::uint16_t* memory = (std::uint16_t*)getMemory();
+
+        std::uint16_t chData = memory[row * m_resolution.columns + column];
+        int asciiCode = chData & 0xFF;
         int texIndex = asciiCode - (65 - 33);
 
         SDL_SetTextureColorMod(m_fontTexture, 0x0, 0x80, 0x0);
@@ -200,7 +202,12 @@ namespace Vpc {
         SDL_RenderCopy(getRenderer(), m_fontTexture, &srcRect, &dstRect);
     }
 
-    Vpc::Font font_16x16_13 = {"font-16x16-13.png", 16, 16};
-    Vpc::Resolution res_120x67_1920x1080 = {1920, 1080, 120, 67};
-    Vpc::Resolution res_80x45_1920x1080 = {1280, 720, 80, 45};
+    namespace Fonts {
+        Vpc::Font f16x16_13 = {"font-16x16-13.png", 16, 16};
+    }
+
+    namespace Resolutions {
+        Vpc::Resolution r120x67_1920x1080 = {1920, 1080, 120, 67};
+        Vpc::Resolution r80x45_1920x1080 = {1280, 720, 80, 45};
+    }
 }

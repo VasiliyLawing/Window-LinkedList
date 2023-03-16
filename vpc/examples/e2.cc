@@ -5,7 +5,7 @@
 void dispayTest() {
     Vpc::TextDisplay display("Virtual display", Vpc::Resolutions::r80x45_1920x1080, Vpc::Fonts::f16x16_13);
     display.turn(true);
-    auto* displayMemory = display.getMemory();
+    auto* displayMemory = (std::uint16_t*)display.getMemory();
 
     const char* testText = "This is a hell of display!";
     typeof(displayMemory) p = displayMemory;

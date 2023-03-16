@@ -11,10 +11,6 @@
 namespace Vpc {
 
     class AbstractDisplay {
-    public:
-        using memory_t = std::uint32_t;
-
-    private:
         std::string m_title;
         int m_width;
         int m_height;
@@ -27,7 +23,7 @@ namespace Vpc {
         std::atomic<bool> m_turnedOn = false;
         std::atomic<bool> m_threadStopping = false;
 
-        memory_t *m_memory = nullptr;
+        std::byte *m_memory = nullptr;
         int m_memorySize;
 
         double m_lastFrameTime = 0;
@@ -41,7 +37,7 @@ namespace Vpc {
         int getWidth() const { return m_width; }
         int getHeight() const { return m_height; }
 
-        memory_t *getMemory() const { return m_memory; }
+        std::byte *getMemory() const { return m_memory; }
         int getMemorySize() const { return m_memorySize; }
 
     protected:

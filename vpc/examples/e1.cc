@@ -6,7 +6,7 @@ void dispayTest() {
     Vpc::GraphicDisplay display("Virtual display", 1929, 1080);
     display.turn(true);
 
-    auto* displayMemory = display.getMemory();
+    auto* displayMemory = (std::uint32_t*) display.getMemory();
 
     int color = 0;
 
