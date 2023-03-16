@@ -7,6 +7,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+
 namespace Vpc {
 
     class AbstractDisplay {
@@ -41,20 +42,17 @@ namespace Vpc {
         int getHeight() const { return m_height; }
 
         memory_t *getMemory() const { return m_memory; }
-
         int getMemorySize() const { return m_memorySize; }
 
     protected:
         AbstractDisplay(const std::string &title, int width, int height, int memorySize);
 
         virtual void uiProcessInit();
-
         virtual void uiProcessShutdown();
 
         virtual void drawFrame() = 0;
 
         SDL_Window *getWindow() { return m_sdlWindow; }
-
         SDL_Renderer *getRenderer() { return m_renderer; }
 
     private:
@@ -108,11 +106,9 @@ namespace Vpc {
 
     protected:
         void uiProcessInit();
-
         void uiProcessShutdown();
 
         void drawFrame();
-
         void drawCharacter(int row, int column);
     };
 
