@@ -11,6 +11,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 #set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
 
+include_directories(.)
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "libs")
+
 set(CMAKE_CXX_STANDARD 20)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
@@ -29,13 +33,11 @@ include(CTest)
 enable_testing()
 include(Catch)
 
-include_directories(/usr/local/lib/wx/include/gtk3-unicode-3.2 . /usr/local/include/wx-3.2)
 
 set(MAIN_BIN_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
-
 add_subdirectory(boost-cmake)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vpc)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
