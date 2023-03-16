@@ -13,8 +13,6 @@ LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
 
 include_directories(.)
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "libs")
-
 set(CMAKE_CXX_STANDARD 20)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
@@ -28,13 +26,17 @@ endif()
 
 set(EXT_LIBS_PATH ${PROJECT_SOURCE_DIR}/ext-libs)
 
-
 include(CTest)
 enable_testing()
 include(Catch)
 
 
 set(MAIN_BIN_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(MAIN_LIB_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+
+
+message("path: ${CMAKE_LIBRARY_PATH}")
+
 
 file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 

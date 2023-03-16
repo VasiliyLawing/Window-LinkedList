@@ -6,11 +6,10 @@ project(vpc)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-#find_package(SDL2_IMAGE REQUIRED)
-
 
 file(GLOB LIB_SRC RELATIVE ${PROJECT_SOURCE_DIR} *.hh *.cc)
 add_library(vpc ${LIB_SRC} ${EXT_LIBS_HEADERS})
+set_target_properties(vpc PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${MAIN_LIB_DIRECTORY})
 set_target_properties(vpc PROPERTIES LINKER_LANGUAGE CXX)
 
 
