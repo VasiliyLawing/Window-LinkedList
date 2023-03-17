@@ -182,6 +182,7 @@ namespace Vpc {
         int texIndex = asciiCode - (65 - 33);
 
         std::uint32_t fgColor = 0xFF000000 | m_palette[fgColorIndex];
+        std::uint32_t bgColor = 0xFF000000 | m_palette[bgColorIndex];
 
         SDL_SetTextureColorMod(
             m_fontTexture,
@@ -209,6 +210,16 @@ namespace Vpc {
         dstRect.y = padY + row * m_font.height;
         dstRect.w = chWidth;
         dstRect.h = chHeight;
+
+        // Fill background color
+        SDL_SetRenderDrawColor(getRenderer(),
+            (bgColor >> 16) & 0xFF,
+            (bgColor >> 8) & 0xFF,
+            bgColor & 0xFF,
+            0xFF
+        );
+
+        SDL_RenderFillRect(getRenderer(), &dstRect);
 
         SDL_RenderCopy(getRenderer(), m_fontTexture, &srcRect, &dstRect);
     }
