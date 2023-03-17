@@ -94,6 +94,7 @@ namespace Vpc {
 
         int m_columnsInTexture;
 
+
     public:
         TextDisplay(const std::string &title, const Resolution &resolution, const Font &font);
 
