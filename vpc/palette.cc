@@ -1,9 +1,15 @@
-#include <vpc/pal.hh>
+#include <vpc/palette.hh>
 
 
 namespace Vpc {
 
-Pal16::Pal16 ibmPc ( {
+Palette::Palette(std::initializer_list<color24_t> colors) {
+    m_colors = colors;
+}
+
+namespace Palettes {
+
+    Palette ibmPc({
         0x0,        // black
         0x0000AA,   // blue
         0x00AA00,   // green
@@ -20,7 +26,6 @@ Pal16::Pal16 ibmPc ( {
         0xFF55FF,   // bright magenta
         0xFFFF55,   // bright yellow
         0xFFFFFF    // white
-};
-);
-
+        });
+    }
 }

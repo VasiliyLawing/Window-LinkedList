@@ -127,31 +127,14 @@ namespace Vpc {
 
 ////////////////////////
 // TextDisplay
-    std::uint32_t TextDisplay::m_pal16[16] = {
-        0x0,        // black
-        0x0000AA,   // blue
-        0x00AA00,   // green
-        0x00AAAA,   // cyan
-        0xAA0000,   // red
-        0xAA00AA,   // magenta
-        0xAA5500,   // brown
-        0xAAAAAA,   // light grey
-        0x555555,   // dark grey
-        0x5555FF,   // bright blue
-        0x55FF55,   // bright green
-        0x55FFFF,   // bright cyan
-        0xFF5555,   // bright red
-        0xFF55FF,   // bright magenta
-        0xFFFF55,   // bright yellow
-        0xFFFFFF    // white
-    };
-
     TextDisplay::TextDisplay(const std::string &title, const Resolution& resolution, const Font &font) :
             AbstractDisplay(
                     title,
                     resolution.width, resolution.height,
                     resolution.columns * resolution.rows * sizeof(std::uint16_t)
-            ) {
+            ),
+            m_palette(Palettes::ibmPc)
+    {
         m_font = font;
         m_resolution = resolution;
     }
@@ -194,9 +177,18 @@ namespace Vpc {
 
         std::uint16_t chData = memory[row * m_resolution.columns + column];
         int asciiCode = chData & 0xFF;
+        int fgColorIndex = (chData >> 8) & 0xF;
+        int bgColorIndex = (chData >> (8+4)) & 0xF;
         int texIndex = asciiCode - (65 - 33);
 
-        SDL_SetTextureColorMod(m_fontTexture, 0x0, 0x80, 0x0);
+        std::uint32_t fgColor = 0xFF000000 | m_palette[fgColorIndex];
+
+        SDL_SetTextureColorMod(
+            m_fontTexture,
+            (fgColor >> 8*2) & 0xFF,
+            (fgColor >> 8) & 0xFF,
+            fgColor & 0xFF
+        );
 
         int texRow = texIndex / m_columnsInTexture;
         int texColumn = texIndex % m_columnsInTexture;
@@ -227,6 +219,6 @@ namespace Vpc {
 
     namespace Resolutions {
         Vpc::Resolution r120x67_1920x1080 = {1920, 1080, 120, 67};
-        Vpc::Resolution r80x45_1920x1080 = {1280, 720, 80, 45};
+        Vpc::Resolution r80x45_1280x720 = {1280, 720, 80, 45};
     }
 }
