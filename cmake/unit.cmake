@@ -1,4 +1,4 @@
-if(DEFINED unitLib)
+if(DEFINED ANYSOLO_UNIT_LIB)
     file(GLOB LIB_SRC RELATIVE ${unitDir} ${unitDir}/lib/*.hh ${unitDir}/lib/*.cc)
     add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS})
     set_target_properties(${artifactPrefix} PROPERTIES LINKER_LANGUAGE CXX)
@@ -11,8 +11,10 @@ foreach( afile ${EXAMPLE_SOURCES} )
 
     add_executable( ${fullTargetName} examples/${afile} )
 
-    if(DEFINED unitLib)
-        target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
+    if(DEFINED ANYSOLO_UNIT_LIB)
+        target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix} ${ANYSOLO_ADD_LIBS})
+    else()
+        target_link_libraries(${fullTargetName} PUBLIC ${ANYSOLO_ADD_LIBS})
     endif()
 
     set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${exampleName}" )
