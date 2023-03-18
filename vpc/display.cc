@@ -68,6 +68,10 @@ namespace Vpc {
                 if (e.type == SDL_QUIT) {
                     return;
                 }
+
+                if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
+                    std::cerr << "key: " << e.key.type << " " << e.key.keysym.sym << std::endl;
+                }
             }
 
             drawFrame();
