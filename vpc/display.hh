@@ -7,6 +7,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <vpc/palette.hh>
+
 
 namespace Vpc {
 
@@ -85,14 +87,14 @@ namespace Vpc {
 
     class TextDisplay : public AbstractDisplay {
     private:
-        SDL_Texture *m_texture;
-
         SDL_Texture *m_fontTexture = nullptr;
 
         Font m_font;
         Resolution m_resolution;
 
         int m_columnsInTexture;
+
+        const Palette& m_palette;
 
     public:
         TextDisplay(const std::string &title, const Resolution &resolution, const Font &font);
@@ -108,12 +110,14 @@ namespace Vpc {
         void drawCharacter(int row, int column);
     };
 
+
     namespace Fonts {
         extern Vpc::Font f16x16_13;
     }
 
+
     namespace Resolutions {
         extern Vpc::Resolution r120x67_1920x1080;
-        extern Vpc::Resolution r80x45_1920x1080;
+        extern Vpc::Resolution r80x45_1280x720;
     }
 }

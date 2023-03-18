@@ -136,7 +136,9 @@ namespace Vpc {
                     title,
                     resolution.width, resolution.height,
                     resolution.columns * resolution.rows * sizeof(std::uint16_t)
-            ) {
+            ),
+            m_palette(Palettes::ibmPc)
+    {
         m_font = font;
         m_resolution = resolution;
     }
@@ -179,9 +181,19 @@ namespace Vpc {
 
         std::uint16_t chData = memory[row * m_resolution.columns + column];
         int asciiCode = chData & 0xFF;
+        int fgColorIndex = (chData >> 8) & 0xF;
+        int bgColorIndex = (chData >> (8+4)) & 0xF;
         int texIndex = asciiCode - (65 - 33);
 
-        SDL_SetTextureColorMod(m_fontTexture, 0x0, 0x80, 0x0);
+        std::uint32_t fgColor = 0xFF000000 | m_palette[fgColorIndex];
+        std::uint32_t bgColor = 0xFF000000 | m_palette[bgColorIndex];
+
+        SDL_SetTextureColorMod(
+            m_fontTexture,
+            (fgColor >> 8*2) & 0xFF,
+            (fgColor >> 8) & 0xFF,
+            fgColor & 0xFF
+        );
 
         int texRow = texIndex / m_columnsInTexture;
         int texColumn = texIndex % m_columnsInTexture;
@@ -203,6 +215,16 @@ namespace Vpc {
         dstRect.w = chWidth;
         dstRect.h = chHeight;
 
+        // Fill background color
+        SDL_SetRenderDrawColor(getRenderer(),
+            (bgColor >> 16) & 0xFF,
+            (bgColor >> 8) & 0xFF,
+            bgColor & 0xFF,
+            0xFF
+        );
+
+        SDL_RenderFillRect(getRenderer(), &dstRect);
+
         SDL_RenderCopy(getRenderer(), m_fontTexture, &srcRect, &dstRect);
     }
 
@@ -212,6 +234,6 @@ namespace Vpc {
 
     namespace Resolutions {
         Vpc::Resolution r120x67_1920x1080 = {1920, 1080, 120, 67};
-        Vpc::Resolution r80x45_1920x1080 = {1280, 720, 80, 45};
+        Vpc::Resolution r80x45_1280x720 = {1280, 720, 80, 45};
     }
 }
