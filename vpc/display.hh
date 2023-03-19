@@ -7,34 +7,26 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <vpc/base.hh>
 #include <vpc/palette.hh>
-
 
 namespace Vpc {
 
     class AbstractDisplay {
         std::string m_title;
-        int m_width;
-        int m_height;
+        int         m_width;
+        int         m_height;
 
-        SDL_Window *m_sdlWindow;
-        SDL_Renderer *m_renderer;
+        SDL_Window*    m_sdlWindow;
+        SDL_Renderer*  m_renderer;
 
-        std::unique_ptr<std::thread> m_thread;
-
-        std::atomic<bool> m_turnedOn = false;
-        std::atomic<bool> m_threadStopping = false;
-
-        std::byte *m_memory = nullptr;
-        int m_memorySize;
+        std::byte*  m_memory = nullptr;
+        int         m_memorySize;
 
         double m_lastFrameTime = 0;
 
     public:
         virtual ~AbstractDisplay();
-
-        void turn(bool on);
-        bool isTurnedOn() const { return m_turnedOn; }
 
         int getWidth() const { return m_width; }
         int getHeight() const { return m_height; }
@@ -42,19 +34,13 @@ namespace Vpc {
         std::byte *getMemory() const { return m_memory; }
         int getMemorySize() const { return m_memorySize; }
 
+        virtual void drawFrame() = 0;
+
     protected:
         AbstractDisplay(const std::string &title, int width, int height, int memorySize);
 
-        virtual void uiProcessInit();
-        virtual void uiProcessShutdown();
-
-        virtual void drawFrame() = 0;
-
         SDL_Window *getWindow() { return m_sdlWindow; }
         SDL_Renderer *getRenderer() { return m_renderer; }
-
-    private:
-        void uiProcess();
     };
 
 
@@ -77,11 +63,9 @@ namespace Vpc {
 
     public:
         GraphicDisplay(const std::string &title, int width, int height);
+        ~GraphicDisplay();
 
-    protected:
-        void uiProcessInit();
-        void uiProcessShutdown();
-        void drawFrame();
+        void drawFrame() override;
     };
 
 
@@ -98,15 +82,13 @@ namespace Vpc {
 
     public:
         TextDisplay(const std::string &title, const Resolution &resolution, const Font &font);
+        ~TextDisplay();
 
         const Resolution &getResolution() const { return m_resolution; }
         const Font &getFont() const { return m_font; }
+        void drawFrame() override;
 
-    protected:
-        void uiProcessInit();
-        void uiProcessShutdown();
-
-        void drawFrame();
+    private:
         void drawCharacter(int row, int column);
     };
 

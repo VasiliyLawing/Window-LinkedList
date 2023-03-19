@@ -6,6 +6,8 @@
 #include <vector>
 #include <initializer_list>
 
+#include <vpc/base.hh>
+
 
 namespace Vpc {
     class Palette {

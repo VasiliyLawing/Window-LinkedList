@@ -1,3 +1,5 @@
+#if 0
+
 #include <vpc/display.hh>
 #include <iostream>
 
@@ -45,3 +47,5 @@ int main() {
     dispayTest();
     std::cerr << "the end" << std::endl;
 }
+
+#endif

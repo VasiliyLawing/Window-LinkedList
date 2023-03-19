@@ -12,9 +12,9 @@ foreach( afile ${EXAMPLE_SOURCES} )
     add_executable( ${fullTargetName} examples/${afile} )
 
     if(DEFINED ANYSOLO_UNIT_LIB)
-        target_link_libraries(${fullTargetName} ${artifactPrefix} ${ANYSOLO_ADD_LIBS})
+        target_link_libraries(${fullTargetName} ${artifactPrefix} ${ANYSOLO_ADD_LIBS} Boost::boost)
     else()
-        target_link_libraries(${fullTargetName} ${ANYSOLO_ADD_LIBS})
+        target_link_libraries(${fullTargetName} ${ANYSOLO_ADD_LIBS} Boost::boost)
     endif()
 
     set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${exampleName}" )

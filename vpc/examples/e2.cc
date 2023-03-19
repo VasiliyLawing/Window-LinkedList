@@ -1,10 +1,12 @@
-#include <vpc/display.hh>
+#include <vpc/terminal.hh>
 #include <iostream>
 
 
-void dispayTest() {
-    Vpc::TextDisplay display("Virtual display", Vpc::Resolutions::r80x45_1280x720, Vpc::Fonts::f16x16_13);
-    display.turn(true);
+void terminalTest() {
+    Vpc::Terminal terminal("Virtual display");
+    terminal.turn(true);
+
+    const auto& display = dynamic_cast<const Vpc::TextDisplay&> (terminal.getDisplay());
     auto* displayMemory = (std::uint16_t*)display.getMemory();
 
     const char* testText = "This is a hell of display!";
@@ -42,6 +44,6 @@ void dispayTest() {
 
 
 int main() {
-    dispayTest();
+    terminalTest();
     std::cerr << "the end" << std::endl;
 }

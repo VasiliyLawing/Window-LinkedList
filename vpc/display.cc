@@ -5,13 +5,6 @@
 
 namespace Vpc {
 
-    static double time_in_ms(void) {
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
-        return tv.tv_sec * 1000.0 + tv.tv_usec / 1000.0;
-    }
-
-
 ///////////////////////////
 // AbstractDisplay
     AbstractDisplay::AbstractDisplay(const std::string &title, int width, int height, int memorySize) {
@@ -20,28 +13,7 @@ namespace Vpc {
         m_height = height;
         m_memorySize = memorySize;
         m_memory = new std::byte[memorySize];
-    }
 
-    AbstractDisplay::~AbstractDisplay() {
-        if (isTurnedOn())
-            turn(false);
-
-        m_thread->join();
-        delete[] m_memory;
-    }
-
-    void AbstractDisplay::turn(bool on) {
-        if (on) {
-            m_threadStopping = false;
-            m_thread = std::make_unique<std::thread>([this] {
-                uiProcess();
-                m_turnedOn = false;
-            });
-        } else
-            m_threadStopping = true;
-    }
-
-    void AbstractDisplay::uiProcessInit() {
         SDL_setenv("SDL_DEBUG", "1", 1);
         SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -49,53 +21,18 @@ namespace Vpc {
         m_renderer = SDL_CreateRenderer(m_sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     }
 
-    void AbstractDisplay::uiProcessShutdown() {
+    AbstractDisplay::~AbstractDisplay() {
         SDL_DestroyRenderer(m_renderer);
         SDL_DestroyWindow(m_sdlWindow);
-    }
 
-    void AbstractDisplay::uiProcess() {
-        uiProcessInit();
-        m_turnedOn = true;
-
-        m_lastFrameTime = time_in_ms();
-
-        int counter = 0;
-
-        while (!m_threadStopping) {
-            SDL_Event e;
-            while (SDL_PollEvent(&e)) {
-                if (e.type == SDL_QUIT) {
-                    return;
-                }
-
-                if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-                    std::cerr << "key: " << e.key.type << " " << e.key.keysym.sym << std::endl;
-                }
-            }
-
-            drawFrame();
-
-            double thisFrameTime = time_in_ms();
-
-            if (counter++ % 1000 == 0) {
-                printf("frame took %fms\n", thisFrameTime - m_lastFrameTime);
-            }
-
-            m_lastFrameTime = thisFrameTime;
-        }
-
-        uiProcessShutdown();
+        delete[] m_memory;
     }
 
 
 //////////////////////////////
 // GraphicDisplay
     GraphicDisplay::GraphicDisplay(const std::string &title, int width, int height) :
-            AbstractDisplay(title, width, height, width * height * sizeof(std::uint32_t)) {}
-
-    void GraphicDisplay::uiProcessInit() {
-        AbstractDisplay::uiProcessInit();
+            AbstractDisplay(title, width, height, width * height * sizeof(std::uint32_t)) {
 
         m_texture = SDL_CreateTexture(
                 getRenderer(),
@@ -107,15 +44,12 @@ namespace Vpc {
         SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_NONE);
     }
 
-    void GraphicDisplay::uiProcessShutdown() {
+    GraphicDisplay::~GraphicDisplay() {
         if (m_texture != nullptr) {
             SDL_DestroyTexture(m_texture);
             m_texture = nullptr;
         }
-
-        AbstractDisplay::uiProcessShutdown();
     }
-
 
     void GraphicDisplay::drawFrame() {
         int pitch;
@@ -141,10 +75,6 @@ namespace Vpc {
     {
         m_font = font;
         m_resolution = resolution;
-    }
-
-    void TextDisplay::uiProcessInit() {
-        AbstractDisplay::uiProcessInit();
 
         std::string fontFilename = std::string("vpc/") + m_font.filename;
         m_fontTexture = IMG_LoadTexture(getRenderer(), fontFilename.c_str());
@@ -157,9 +87,7 @@ namespace Vpc {
         m_columnsInTexture = size.x / m_font.width;
     }
 
-    void TextDisplay::uiProcessShutdown() {
-        AbstractDisplay::uiProcessShutdown();
-
+    TextDisplay::~TextDisplay() {
         if (m_fontTexture != nullptr) {
             SDL_DestroyTexture(m_fontTexture);
             m_fontTexture = nullptr;

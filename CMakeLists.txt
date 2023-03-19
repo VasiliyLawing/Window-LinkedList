@@ -4,11 +4,18 @@ project(cpp1)
 
 cmake_policy(SET CMP0135 NEW)
 
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
 
-#set(Boost_USE_STATIC_LIBS OFF)
-#set(Boost_USE_MULTITHREADED ON)
-#set(Boost_USE_STATIC_RUNTIME OFF)
-#find_package(Boost 1.71.0)
+if(Boost_FOUND)
+	message(WARNING "BOOST FOUND")
+	include_directories(${Boost_INCLUDE_DIRS})
+	set(BOOST_LIBS ${Boost_LIBRARIES})
+else()
+	set(BOOST_LIBS )
+	message(WARNING "BOOST NOT FOUND")
+endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 #set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
