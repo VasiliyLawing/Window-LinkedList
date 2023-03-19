@@ -3,12 +3,6 @@
 
 
 namespace Vpc {
-    KeyboardEventData::KeyboardEventData(bool isPressed, const SDL_Keysym& keysym) {
-        m_pressed = isPressed;
-        m_keysym = keysym;
-    }
-
-
     Input::Input():
         m_eventBuffer(1024)
     {

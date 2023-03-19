@@ -21,7 +21,7 @@ namespace Vpc {
         }
 
         bool isPressed() const  {return m_isPressed;}
-        Key getKey() const      {return m_isPressed}
+        Key getKey() const      {return m_key;}
     };
 
 
