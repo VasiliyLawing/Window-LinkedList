@@ -2,11 +2,16 @@
 #include <iostream>
 
 
-void terminalTest() {
-    Vpc::Terminal terminal("Virtual display");
-    terminal.turn(true);
+static void onKey(const Vpc::KeyboardEvent& event) {
+    std::cerr << event.getKey().getAscii() << std::endl;
+}
 
-    const auto& display = dynamic_cast<const Vpc::TextDisplay&> (terminal.getDisplay());
+
+static void terminalTest() {
+    Vpc::Terminal terminal("Virtual display");
+    terminal.getInput().setKeyboardHandler(onKey);
+
+    auto& display = dynamic_cast<Vpc::TextDisplay&> (terminal.getDisplay());
     auto* displayMemory = (std::uint16_t*)display.getMemory();
 
     const char* testText = "This is a hell of display!";
@@ -39,6 +44,7 @@ void terminalTest() {
             bgColor = 0;
     }
 
+    terminal.update();
     std::this_thread::sleep_for(std::chrono::seconds (500));
 }
 

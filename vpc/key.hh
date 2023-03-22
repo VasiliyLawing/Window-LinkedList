@@ -24,8 +24,7 @@ namespace Vpc {
 
         Key(const Key& key) = default;
 
-        ascii_t getAscii() const;
-        keyCode_t getCode() const;
+        ascii_t getAscii() const    {return m_ascii;}
+        keyCode_t getCode() const   {return m_code;}
     };
-
 }
