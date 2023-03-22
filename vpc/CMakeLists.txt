@@ -9,6 +9,7 @@ include_directories(${SDL2_INCLUDE_DIRS})
 
 file(GLOB LIB_SRC RELATIVE ${PROJECT_SOURCE_DIR} *.hh *.cc)
 add_library(vpc ${LIB_SRC} ${EXT_LIBS_HEADERS})
+target_link_libraries(vpc PUBLIC pthread)
 set_target_properties(vpc PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${MAIN_LIB_DIRECTORY})
 set_target_properties(vpc PROPERTIES LINKER_LANGUAGE CXX)
 
