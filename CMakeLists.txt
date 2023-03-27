@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.7)
 
 project(cpp1)
 
+include(cpp1-local.cmake)
+
+message(${ANYSOLO_LOCAL_INC})
+
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
@@ -11,7 +15,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 #set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
 
-include_directories(.)
+include_directories(. ${ANYSOLO_LOCAL_INC})
+link_directories( ${ANYSOLO_LOCAL_LIB})
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -39,4 +44,4 @@ file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
 add_subdirectory(boost-cmake)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vpc)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
+#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)

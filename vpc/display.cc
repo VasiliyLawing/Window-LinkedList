@@ -1,15 +1,8 @@
 #include "display.hh"
 
-#include <sys/time.h>
 #include <iostream>
 
 namespace Vpc {
-
-    static double time_in_ms(void) {
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
-        return tv.tv_sec * 1000.0 + tv.tv_usec / 1000.0;
-    }
 
 
 ///////////////////////////
@@ -58,9 +51,6 @@ namespace Vpc {
         uiProcessInit();
         m_turnedOn = true;
 
-        m_lastFrameTime = time_in_ms();
-
-        int counter = 0;
 
         while (!m_threadStopping) {
             SDL_Event e;
@@ -75,14 +65,6 @@ namespace Vpc {
             }
 
             drawFrame();
-
-            double thisFrameTime = time_in_ms();
-
-            if (counter++ % 1000 == 0) {
-                printf("frame took %fms\n", thisFrameTime - m_lastFrameTime);
-            }
-
-            m_lastFrameTime = thisFrameTime;
         }
 
         uiProcessShutdown();

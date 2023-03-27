@@ -8,7 +8,7 @@ void dispayTest() {
     auto* displayMemory = (std::uint16_t*)display.getMemory();
 
     const char* testText = "This is a hell of display!";
-    typeof(displayMemory) p = displayMemory;
+    auto p = displayMemory;
 
     for(int i = 0; testText[i] != 0; i++) {
         *p = testText[i];
