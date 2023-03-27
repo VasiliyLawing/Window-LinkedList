@@ -31,7 +31,6 @@ endif()
 
 set(EXT_LIBS_PATH ${PROJECT_SOURCE_DIR}/ext-libs)
 
-include(CTest)
 enable_testing()
 include(Catch)
 
@@ -42,6 +41,6 @@ set(MAIN_LIB_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
-add_subdirectory(boost-cmake)
+#add_subdirectory(boost-cmake)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vpc)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
