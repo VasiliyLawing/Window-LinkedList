@@ -1,10 +1,9 @@
 project(level1)
 
-set(VPC_ALL_LIBS "vpc ${VPC_SDL_LIB} ${VPC_SDL_IMAGE_LIB}")
+set(ANYSOLO_VPC_LIBS vpc SDL2 SDL2_image)
 
-message("VPC LIB: ${VPC_SDL_IMAGE_LIB}")
 
-set(ANYSOLO_ADD_LIBS ${VPC_ALL_LIBS})
+set(ANYSOLO_ADD_LIBS ${ANYSOLO_VPC_LIBS})
 link_directories(${MAIN_LIB_DIRECTORY})
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/unit1)

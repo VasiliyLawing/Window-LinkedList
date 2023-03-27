@@ -44,4 +44,4 @@ file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
 add_subdirectory(boost-cmake)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vpc)
-#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)

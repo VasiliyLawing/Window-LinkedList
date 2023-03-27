@@ -12,9 +12,9 @@ foreach( afile ${EXAMPLE_SOURCES} )
     add_executable( ${fullTargetName} examples/${afile} )
 
     if(DEFINED ANYSOLO_UNIT_LIB)
-        target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix} ${ANYSOLO_ADD_LIBS} pthread)
+        target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix} ${ANYSOLO_ADD_LIBS})
     else()
-        target_link_libraries(${fullTargetName} PUBLIC ${ANYSOLO_ADD_LIBS} pthread)
+        target_link_libraries(${fullTargetName} PUBLIC ${ANYSOLO_ADD_LIBS})
     endif()
 
     set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${exampleName}" )
