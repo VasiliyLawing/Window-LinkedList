@@ -2,13 +2,11 @@ cmake_minimum_required(VERSION 3.7)
 
 project(vpc)
 
-
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
-
+set(ANYSOLO_VPC_LIBS vpc SDL2 SDL2_image)
 
 file(GLOB LIB_SRC RELATIVE ${PROJECT_SOURCE_DIR} *.hh *.cc)
 add_library(vpc ${LIB_SRC} ${EXT_LIBS_HEADERS})
+
 set_target_properties(vpc PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${MAIN_LIB_DIRECTORY})
 set_target_properties(vpc PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries(vpc PUBLIC Boost::boost)
@@ -22,7 +20,8 @@ foreach( afile ${EXAMPLE_SOURCES} )
 	set(fullTargetName vpc_${exampleName})
 
 	add_executable( ${fullTargetName} examples/${afile} )
-	target_link_libraries(${fullTargetName} vpc ${SDL2_LIBRARIES} SDL2_image)
+	target_link_libraries(${fullTargetName} ${ANYSOLO_VPC_LIBS})
+#	set_target_properties(${fullTargetName} PROPERTIES LINK_FLAG_DEBUG )
 
 #		target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix})
 

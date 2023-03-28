@@ -1,11 +1,13 @@
 #pragma once
 
+#include <vpc/base.hh>
+
 #include <string>
 #include <thread>
 #include <atomic>
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #include <vpc/base.hh>
 #include <vpc/palette.hh>
@@ -22,8 +24,6 @@ namespace Vpc {
 
         std::byte*  m_memory = nullptr;
         int         m_memorySize;
-
-        double m_lastFrameTime = 0;
 
     public:
         virtual ~AbstractDisplay();
