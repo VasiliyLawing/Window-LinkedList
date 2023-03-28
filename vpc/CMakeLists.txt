@@ -10,6 +10,7 @@ add_library(vpc ${LIB_SRC} ${EXT_LIBS_HEADERS})
 set_target_properties(vpc PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${MAIN_LIB_DIRECTORY})
 set_target_properties(vpc PROPERTIES LINKER_LANGUAGE CXX)
 
+
 file( GLOB EXAMPLE_SOURCES RELATIVE ${PROJECT_SOURCE_DIR}/examples examples/*.cc )
 
 message(${EXAMPLE_SOURCES})
