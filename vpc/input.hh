@@ -21,7 +21,7 @@ namespace Vpc {
         char m_ch;
 
     public:
-        CharEvent(char ch) {m_ch = ch;}
+        explicit CharEvent(char ch) {m_ch = ch;}
 
         char getChar() const {return m_ch;}
         virtual void print(std::ostream& os) const override;
@@ -39,8 +39,7 @@ namespace Vpc {
             m_isPressed(isPressed),
             m_modifiers(modifiers),
             m_code(code)
-        {
-        }
+        {}
 
         bool isPressed() const  {return m_isPressed;}
         keyCode_t getCode() const           {return m_code;}
@@ -70,7 +69,6 @@ namespace Vpc {
 
     private:
         void handleEvent(const Event& e) const;
-        Key sdlKeySymToKey(const SDL_Keysym& keysym);
         static KeyModifiers makeKeyModifiersFromSdl(std::uint16_t);
     };
 }

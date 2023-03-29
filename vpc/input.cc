@@ -10,8 +10,14 @@ namespace Vpc {
             handleEvent(event);
         }
         else if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-            if(!std::isprint(e.key.keysym.sym)) {
-                KeyEvent event(e.type == SDL_KEYDOWN, sdlKeySymToKey(e.key.keysym));
+            std::cerr << "#1" << e.key.keysym.sym << std::endl;
+
+            if(e.key.keysym.sym > 255 || !std::isprint(e.key.keysym.sym)) {
+                KeyEvent event(
+                    e.type == SDL_KEYDOWN,
+                    e.key.keysym.sym,
+                    makeKeyModifiersFromSdl(e.key.keysym.mod)
+                );
                 handleEvent(event);
             }
         }
@@ -20,18 +26,6 @@ namespace Vpc {
     void Input::handleEvent(const Event &e) const {
         if(m_eventHandler != nullptr)
             m_eventHandler(e);
-    }
-
-    Key Input::sdlKeySymToKey(const SDL_Keysym& keysym) {
-        std::cerr << "key: " << keysym.sym << std::endl;
-
-        auto mods = makeKeyModifiersFromSdl(keysym.mod);
-        ascii_t ascii = (keysym.sym > 0 && keysym.sym <= 255) ? keysym.sym : 0;
-
-        if(isalpha(ascii) && mods.isShift())
-            ascii = toupper(ascii);
-
-        return Key(ascii, 0, mods);
     }
 
     KeyModifiers Input::makeKeyModifiersFromSdl(std::uint16_t keyMod) {

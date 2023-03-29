@@ -1,9 +1,23 @@
 #include <vpc/terminal.hh>
+#include <vpc/key.hh>
 #include <iostream>
 
 
 static void onKey(const Vpc::Event& event) {
-    //std::cerr << event << std::endl;
+    std::cerr << event << std::endl;
+
+    const auto* keyEvent = dynamic_cast<const Vpc::KeyEvent*> (&event);
+    if(keyEvent != nullptr) {
+        std::cerr << "Got # " << keyEvent << std::endl;
+
+        switch(keyEvent->getCode()) {
+            using namespace Vpc;
+
+            case KeyCodes::Return:
+                std::cerr << "!!" << keyEvent << std::endl;
+                break;
+        }
+    }
 }
 
 
