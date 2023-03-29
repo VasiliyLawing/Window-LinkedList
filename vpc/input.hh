@@ -3,7 +3,6 @@
 #include <functional>
 
 #include <SDL2/SDL.h>
-#include <boost/circular_buffer.hpp>
 
 #include <vpc/key.hh>
 
