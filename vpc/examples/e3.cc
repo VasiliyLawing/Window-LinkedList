@@ -2,8 +2,8 @@
 #include <iostream>
 
 
-static void onKey(const Vpc::KeyboardEvent& event) {
-    std::cerr << event.getKey().getAscii() << std::endl;
+static void onKey(const Vpc::Event& event) {
+    //std::cerr << event << std::endl;
 }
 
 

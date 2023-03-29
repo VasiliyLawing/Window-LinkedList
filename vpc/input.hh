@@ -9,66 +9,68 @@
 
 namespace Vpc {
 
-    class KeyboardEvent {
-        bool    m_isPressed;
-        Key     m_key;
+    class Event {
+    public:
+        virtual ~Event() = default;
+
+        virtual void print(std::ostream& os) const = 0;
+    };
+
+
+    class CharEvent: public Event {
+        char m_ch;
 
     public:
-        KeyboardEvent(bool isPressed, const Key& key) {
-            m_isPressed = isPressed;
-            m_key       = key;
+        CharEvent(char ch) {m_ch = ch;}
+
+        char getChar() const {return m_ch;}
+        virtual void print(std::ostream& os) const override;
+    };
+
+
+    class KeyEvent: public Event {
+        bool    m_isPressed;
+
+        keyCode_t       m_code;
+        KeyModifiers    m_modifiers;
+
+    public:
+        KeyEvent(bool isPressed, keyCode_t code, KeyModifiers modifiers):
+            m_isPressed(isPressed),
+            m_modifiers(modifiers),
+            m_code(code)
+        {
         }
 
         bool isPressed() const  {return m_isPressed;}
-        Key getKey() const      {return m_key;}
+        keyCode_t getCode() const           {return m_code;}
+        KeyModifiers getModifiers() const   {return m_modifiers;}
+
+        virtual void print(std::ostream& os) const override;
     };
 
+    inline std::ostream& operator<< (std::ostream& os, const Event& e) {
+        e.print(os); return os;
+    }
 
-    using KeyboardHandler = std::function<void(const KeyboardEvent&)>;
 
-    class KeyModefiers {
-        using mask_t = std::uint8_t;
+    using EventHandler = std::function<void(const Event&)>;
 
-        enum {
-            shiftMask = 1,
-            ctrlMask = 1<<1,
-            altMask = 1<<2,
-            winMask = 1<<3
-        };
-
-        mask_t m_mask;
-
-    public:
-        KeyModefiers(bool isShift, bool isCtrl, bool isAlt, bool isWin);
-
-        bool isShift() const {return (m_mask & shiftMask) != 0;}
-        bool isCtrl() const {return (m_mask & ctrlMask) != 0;}
-        bool isAlt() const {return (m_mask & altMask) != 0;}
-        bool isWin() const {return (m_mask & winMask) != 0;}
-    };
 
     class Input {
-        KeyboardHandler m_keyboardHandler = nullptr;
-
-        struct {
-            bool
-                isShift = false,
-                isCftrl = false,
-                isAlt   = false,
-                isWin   = false
-            ;
-        } m_modefiers;
+        EventHandler m_eventHandler = nullptr;
 
     public:
-        void setKeyboardHandler(KeyboardHandler handler) {
-            m_keyboardHandler = handler;
+        void setKeyboardHandler(EventHandler handler) {
+            m_eventHandler = handler;
         }
 
         // Only for internal use
         void processEvents(const SDL_Event& e);
 
     private:
+        void handleEvent(const Event& e) const;
         Key sdlKeySymToKey(const SDL_Keysym& keysym);
-        void updateKeyModefiers(const SDL_Event& e);
+        static KeyModifiers makeKeyModifiersFromSdl(std::uint16_t);
     };
 }
