@@ -13,7 +13,7 @@ void dispayTest() {
     int color = 0;
 
     while(true) {
-        typeof(displayMemory) p = displayMemory;
+        auto p = displayMemory;
 
         for (int i = 0; i < display.getWidth() * display.getHeight(); ++i) {
 //            *p = 0xFF00FF00;
@@ -34,6 +34,7 @@ void dispayTest() {
 int main() {
     dispayTest();
     std::cerr << "the end" << std::endl;
+    return 0;
 }
 
 #endif
