@@ -1,12 +1,12 @@
-#if 0
-
-#include <vpc/display.hh>
+#include <vpc/comp.hh>
 #include <iostream>
 
 
-void dispayTest() {
-    Vpc::TextDisplay display("Virtual display", Vpc::Resolutions::r80x45_1280x720, Vpc::Fonts::f16x16_13);
-    display.turn(true);
+
+static void terminalTest() {
+    Vpc::TextDisplay display("Virtual display");
+    Vpc::Comp comp(display);
+
     auto* displayMemory = (std::uint16_t*)display.getMemory();
 
     const char* testText = "This is a hell of display!";
@@ -39,13 +39,12 @@ void dispayTest() {
             bgColor = 0;
     }
 
+    comp.update();
     std::this_thread::sleep_for(std::chrono::seconds (500));
 }
 
 
 int main() {
-    dispayTest();
+    terminalTest();
     std::cerr << "the end" << std::endl;
 }
-
-#endif

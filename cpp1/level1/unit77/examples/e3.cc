@@ -1,4 +1,4 @@
-#include <vpc/terminal.hh>
+#include <vpc/comp.hh>
 #include <iostream>
 
 
@@ -34,15 +34,14 @@ static void onKey(const Vpc::Event& event) {
 
 
 static void terminalTest() {
-    Vpc::Terminal terminal("Virtual display");
-    terminal.setTextMode();
-    terminal.getInput().setKeyboardHandler(onKey);
+    Vpc::TextDisplay display("Virtual display");
+    Vpc::Comp comp(display);
+    comp.getInput().setKeyboardHandler(onKey);
 
-    auto& display = dynamic_cast<Vpc::TextDisplay&> (terminal.getDisplay());
     displayMemory = (std::uint16_t*)display.getMemory();
 
-    while (terminal) {
-        terminal.update();
+    while (comp) {
+        comp.update();
         std::this_thread::sleep_for(std::chrono::milliseconds (1));
     }
 }

@@ -1,12 +1,11 @@
-#if 0
-
 #include <vpc/display.hh>
+#include <vpc/comp.hh>
 #include <iostream>
 
 
 void dispayTest() {
     Vpc::GraphicDisplay display("Virtual display", 1929, 1080);
-    display.turn(true);
+    Vpc::Comp comp(display);
 
     auto* displayMemory = (std::uint32_t*) display.getMemory();
 
@@ -27,6 +26,8 @@ void dispayTest() {
             else
                 color++;
         }
+
+        comp.update();
     }
 }
 
@@ -36,5 +37,3 @@ int main() {
     std::cerr << "the end" << std::endl;
     return 0;
 }
-
-#endif
