@@ -10,8 +10,6 @@ namespace Vpc {
             handleEvent(event);
         }
         else if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-            std::cerr << "#1" << e.key.keysym.sym << std::endl;
-
             if(e.key.keysym.sym > 255 || !std::isprint(e.key.keysym.sym)) {
                 KeyEvent event(
                     e.type == SDL_KEYDOWN,

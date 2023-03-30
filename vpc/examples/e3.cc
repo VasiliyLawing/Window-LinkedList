@@ -1,20 +1,32 @@
 #include <vpc/terminal.hh>
-#include <vpc/key.hh>
 #include <iostream>
 
 
+static std::uint16_t* displayMemory = nullptr;
+static int charOffset = 0;
+const int textColor = 2;
+const int textBgColor = 0;
+
+
 static void onKey(const Vpc::Event& event) {
-    std::cerr << event << std::endl;
+    const auto* charEvent = dynamic_cast<const Vpc::CharEvent*> (&event);
+    if(charEvent != nullptr) {
+        if(charOffset > 160)
+            charOffset = 0;
+
+        displayMemory[charOffset] = textBgColor<<12 | textColor<<8 | charEvent->getChar();
+        charOffset++;
+    }
+
 
     const auto* keyEvent = dynamic_cast<const Vpc::KeyEvent*> (&event);
-    if(keyEvent != nullptr) {
-        std::cerr << "Got # " << keyEvent << std::endl;
-
+    if(keyEvent != nullptr && keyEvent->isPressed()) {
         switch(keyEvent->getCode()) {
             using namespace Vpc;
 
-            case KeyCodes::Return:
-                std::cerr << "!!" << keyEvent << std::endl;
+            case KeyCodes::Backspace:
+                charOffset--;
+                displayMemory[charOffset] = ' ';
                 break;
         }
     }
@@ -23,10 +35,11 @@ static void onKey(const Vpc::Event& event) {
 
 static void terminalTest() {
     Vpc::Terminal terminal("Virtual display");
+    terminal.setTextMode();
     terminal.getInput().setKeyboardHandler(onKey);
 
     auto& display = dynamic_cast<Vpc::TextDisplay&> (terminal.getDisplay());
-    auto* displayMemory = (std::uint16_t*)display.getMemory();
+    displayMemory = (std::uint16_t*)display.getMemory();
 
     while (terminal) {
         terminal.update();

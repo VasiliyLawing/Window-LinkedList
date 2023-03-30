@@ -6,11 +6,22 @@
 namespace Vpc {
     Terminal::Terminal(const std::string& title) {
         m_title = title;
-        m_pDisplay = std::make_unique<TextDisplay>(m_title, Vpc::Resolutions::r80x45_1280x720, Vpc::Fonts::f16x16_13);
         m_pInput = std::make_unique<Input>();
     }
 
+    void Terminal::setGraphicMode(int width, int height) {
+        m_pDisplay = std::make_unique<GraphicDisplay>(m_title, width, height);
+    }
+
+    void Terminal::setTextMode(const Resolution &resolution, const Font &font) {
+        m_pDisplay = std::make_unique<TextDisplay>
+            (m_title, resolution, font);
+    }
+
     void Terminal::update() {
+        if(m_pDisplay == nullptr)
+            throw std::runtime_error("You must to set a display mode");
+
         if(isCloseRequested())
             return;
 

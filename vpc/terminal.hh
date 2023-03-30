@@ -21,6 +21,9 @@ namespace Vpc {
     public:
         Terminal(const std::string& title = "Virtual Terminal");
 
+        void setGraphicMode(int width, int height);
+        void setTextMode(const Resolution& resolution = Vpc::Resolutions::r80x45_1280x720, const Font& font = Vpc::Fonts::f16x16_13);
+
         void update();
         bool isCloseRequested() const {return m_closeRequested;}
 
