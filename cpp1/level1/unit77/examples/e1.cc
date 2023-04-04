@@ -11,7 +11,7 @@ void dispayTest() {
 
     int color = 0;
 
-    while(true) {
+    while(comp.update()) {
         auto p = displayMemory;
 
         for (int i = 0; i < display.getWidth() * display.getHeight(); ++i) {
@@ -26,8 +26,6 @@ void dispayTest() {
             else
                 color++;
         }
-
-        comp.update();
     }
 }
 

@@ -14,12 +14,12 @@ static void terminalTest() {
     int fgColor = 1;
     int bgColor = 0;
 
-    for(int row = 0; row < display.getResolution().rows; row++) {
-        typeof(displayMemory) rowPtr = displayMemory + display.getResolution().columns * row;
+    for(int row = 0; row < display.getRows(); row++) {
+        typeof(displayMemory) rowPtr = displayMemory + display.getColumns() * row;
 
         const char* textPtr = testText;
 
-        for (int col = 0; col < display.getResolution().columns; col++, textPtr++) {
+        for (int col = 0; col < display.getColumns(); col++, textPtr++) {
             if(*textPtr == 0)
                 textPtr = testText;
 
@@ -39,8 +39,7 @@ static void terminalTest() {
             bgColor = 0;
     }
 
-    comp.update();
-    std::this_thread::sleep_for(std::chrono::seconds (500));
+    while (comp.update()) ;
 }
 
 
