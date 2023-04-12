@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.7)
 
 project(cpp1)
 
-include(cpp1-local.cmake)
+include(local.cmake)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -10,14 +10,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 #set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
 
-if (NOT DEFINED ENV{ANYSOLO_LIB_CPP_STUDENTS})
-message(FATAL_ERROR "You must set environment variable 'ANYSOLO_LIBS_CPP_STUDENTS'")
-endif ()
-
-SET(ANYSOLO_LIB_STUDENTS $ENV{ANYSOLO_LIB_CPP_STUDENTS} )
-
-include_directories(. ${ANYSOLO_LOCAL_INC} ${ANYSOLO_LIB_STUDENTS}/src)
-link_directories( ${ANYSOLO_LOCAL_LIB} ${ANYSOLO_LIB_STUDENTS}/lib)
+include_directories(. ${ANYSOLO_LOCAL_INC} )
+link_directories( ${ANYSOLO_LOCAL_LIB} )
 
 set(CMAKE_CXX_STANDARD 20)
 
