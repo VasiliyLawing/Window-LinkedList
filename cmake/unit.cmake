@@ -22,7 +22,7 @@ endforeach( afile ${EXAMPLE_SOURCES} )
 
 
 file( GLOB TASK_SOURCES RELATIVE ${unitDir}/tasks tasks/*.cc )
-message(TASKS: $TASK_SOURCES)
+message(TASKS: ${TASK_SOURCES})
 foreach( afile ${TASK_SOURCES} )
     string( REPLACE ".cc" "" taskName ${afile} )
     set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${taskName})
