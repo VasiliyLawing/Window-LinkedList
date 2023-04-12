@@ -18,7 +18,6 @@ static void onKey(const Vpc::Event& event) {
         charOffset++;
     }
 
-
     const auto* keyEvent = dynamic_cast<const Vpc::KeyEvent*> (&event);
     if(keyEvent != nullptr && keyEvent->isPressed()) {
         switch(keyEvent->getCode()) {
