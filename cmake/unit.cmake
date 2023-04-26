@@ -21,6 +21,24 @@ foreach( afile ${EXAMPLE_SOURCES} )
 endforeach( afile ${EXAMPLE_SOURCES} )
 
 
+file( GLOB TASK_SOURCES RELATIVE ${unitDir}/tasks tasks/*.cc )
+message(TASKS: ${TASK_SOURCES})
+foreach( afile ${TASK_SOURCES} )
+    string( REPLACE ".cc" "" taskName ${afile} )
+    set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${taskName})
+
+    add_executable( ${fullTargetName} tasks/${afile} )
+
+    if(DEFINED ANYSOLO_UNIT_LIB)
+        target_link_libraries(${fullTargetName} PUBLIC ${artifactPrefix} ${ANYSOLO_ADD_LIBS})
+    else()
+        target_link_libraries(${fullTargetName} PUBLIC ${ANYSOLO_ADD_LIBS})
+    endif()
+
+    set_target_properties(${fullTargetName} PROPERTIES RUNTIME_OUTPUT_NAME "${taskName}" )
+endforeach( afile ${TASK_SOURCES} )
+
+
 #if(DEFINED ANYSOLO_BINARY_TASKS)
 #    file( GLOB TASKS_SOURCES RELATIVE ${unitDir}/tasks tasks/*.cc )
 #

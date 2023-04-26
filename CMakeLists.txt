@@ -2,16 +2,16 @@ cmake_minimum_required(VERSION 3.7)
 
 project(cpp1)
 
-set(Boost_USE_STATIC_LIBS OFF)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME OFF)
-find_package(Boost 1.71.0)
+include(local.cmake)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 #set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
 
-include_directories(.)
+include_directories(. ${ANYSOLO_LOCAL_INC} )
+link_directories( ${ANYSOLO_LOCAL_LIB} )
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -26,7 +26,6 @@ endif()
 
 set(EXT_LIBS_PATH ${PROJECT_SOURCE_DIR}/ext-libs)
 
-include(CTest)
 enable_testing()
 include(Catch)
 
@@ -37,6 +36,4 @@ set(MAIN_LIB_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
-add_subdirectory(boost-cmake)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vpc)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
