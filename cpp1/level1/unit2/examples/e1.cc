@@ -1,3 +1,5 @@
+// Copyright (c) 2023.  Anysolo LLC
+
 #include <iostream>
 
 // We insert contents of file fraction.hh inhere.

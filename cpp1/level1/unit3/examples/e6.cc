@@ -1,3 +1,5 @@
+// Copyright (c) 2023.  Anysolo LLC
+
 #include <iostream>
 #include <cpp1/level1/unit2/examples/fraction.hh>
 

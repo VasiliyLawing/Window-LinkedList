@@ -1,8 +1,9 @@
+// Copyright (c) 2023.  Anysolo LLC
+
 #include <iostream>
 
 int main() {
-  // Try to change next line to counter = 11
-  // and you see the difference between "while" and "do" loops
+  // Try to change next line to counter = 11, and you see the difference between "while" and "do" loops
   int counter = 0;
 
   do {

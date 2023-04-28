@@ -1,3 +1,5 @@
+// Copyright (c) 2023.  Anysolo LLC
+
 // use path relative to the unit
 #include "examples/fraction.hh"
 

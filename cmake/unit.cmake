@@ -1,3 +1,12 @@
+string(REPLACE "/" ";" currentPathList ${CMAKE_CURRENT_SOURCE_DIR})
+
+
+list(POP_BACK currentPathList ANYSOLO_UNIT)
+list(POP_BACK currentPathList ANYSOLO_LEVEL)
+
+set(artifactPrefix "${ANYSOLO_LEVEL}_${ANYSOLO_UNIT}")
+
+
 if(DEFINED ANYSOLO_UNIT_LIB)
     file(GLOB LIB_SRC RELATIVE ${unitDir} ${unitDir}/lib/*.hh ${unitDir}/lib/*.cc)
     add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS})

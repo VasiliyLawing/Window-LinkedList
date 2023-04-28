@@ -1,3 +1,5 @@
+// Copyright (c) 2023.  Anysolo LLC
+
 #include <iostream>
 
 int main() {
