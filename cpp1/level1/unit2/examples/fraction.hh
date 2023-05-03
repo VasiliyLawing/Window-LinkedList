@@ -1,3 +1,5 @@
+// Copyright (c) 2023.  Anysolo LLC
+
 #pragma once
 
 struct Fraction {

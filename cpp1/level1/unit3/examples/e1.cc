@@ -1,3 +1,5 @@
+// Copyright (c) 2023.  Anysolo LLC
+
 #include <iostream>
 
 // You can get size of any variable or type via "sizeof"

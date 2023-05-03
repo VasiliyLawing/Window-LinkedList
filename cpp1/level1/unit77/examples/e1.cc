@@ -1,3 +1,5 @@
+// Copyright (c) 2023.  Anysolo LLC
+
 #include <vpc/display.hh>
 #include <vpc/comp.hh>
 #include <iostream>

@@ -1,7 +1,5 @@
 project(level1)
 
-set(ANYSOLO_LEVEL 1)
-set(ANYSOLO_UNIT 2)
 set(ANYSOLO_UNIT_LIB 1)
 
 set(artifactPrefix "level1_unit2")
