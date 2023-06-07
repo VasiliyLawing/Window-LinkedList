@@ -9,7 +9,7 @@ set(artifactPrefix "${ANYSOLO_LEVEL}_${ANYSOLO_UNIT}")
 
 if(DEFINED ANYSOLO_UNIT_LIB)
     file(GLOB LIB_SRC RELATIVE ${unitDir} ${unitDir}/lib/*.hh ${unitDir}/lib/*.cc)
-    add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS})
+    add_library(${artifactPrefix} ${LIB_SRC} ${EXT_LIBS_HEADERS} ../cpp1/level1/unit77/tasks/t1.cc)
     set_target_properties(${artifactPrefix} PROPERTIES LINKER_LANGUAGE CXX)
 endif()
 
