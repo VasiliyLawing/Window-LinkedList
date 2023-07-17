@@ -10,7 +10,7 @@ const int textColor = 2;
 const int textBgColor = 0;
 
 
-static void onKey(const Vpc::Event& event) {
+static void onKey(const Vpc::Event& event, void*) {
     const auto* charEvent = dynamic_cast<const Vpc::CharEvent*> (&event);
     if(charEvent != nullptr) {
         if(charOffset > 160)
