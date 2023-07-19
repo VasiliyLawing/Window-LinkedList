@@ -16,7 +16,7 @@ endif()
 file( GLOB EXAMPLE_SOURCES RELATIVE ${unitDir}/examples examples/*.cc )
 foreach( afile ${EXAMPLE_SOURCES} )
     string( REPLACE ".cc" "" exampleName ${afile} )
-    set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${exampleName})
+    set(fullTargetName ${ANYSOLO_LEVEL}_${ANYSOLO_UNIT}_${exampleName})
 
     add_executable( ${fullTargetName} examples/${afile} )
 
@@ -34,7 +34,7 @@ file( GLOB TASK_SOURCES RELATIVE ${unitDir}/tasks tasks/*.cc )
 message(TASKS: ${TASK_SOURCES})
 foreach( afile ${TASK_SOURCES} )
     string( REPLACE ".cc" "" taskName ${afile} )
-    set(fullTargetName level${ANYSOLO_LEVEL}_unit${ANYSOLO_UNIT}_${taskName})
+    set(fullTargetName ${ANYSOLO_LEVEL}_${ANYSOLO_UNIT}_${taskName})
 
     add_executable( ${fullTargetName} tasks/${afile} )
 
