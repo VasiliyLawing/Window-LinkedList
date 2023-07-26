@@ -1,10 +1,11 @@
 #include <iostream>
 #include <cassert>
 
-// New subjects to research:
-// C++ constructors, destructors
-// C++ operator[]
-// C++ reference
+// New C++ subjects to research:
+// constructors, destructors
+// operator overloading
+// operator[]
+// reference
 
 
 // H File
