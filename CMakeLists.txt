@@ -37,3 +37,4 @@ set(MAIN_LIB_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 file(GLOB EXT_LIBS_HEADERS ${EXT_LIBS_PATH}/*.h*)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level1)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cpp1/level2)
