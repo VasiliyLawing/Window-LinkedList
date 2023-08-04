@@ -20,6 +20,7 @@ static void terminalTest() {
         auto rowPtr = displayMemory + display.getColumns() * row;
 
         const char* textPtr = testText;
+        std::cerr << display.getColumns() << std::endl;
 
         for (int col = 0; col < display.getColumns(); col++, textPtr++) {
             if(*textPtr == 0)

@@ -1,4 +1,4 @@
-// Copyright (c) 2023.  Anysolo LLC
+//Copyright (c) 2023.  Anysolo LLC
 
 #include <vpc/display.hh>
 #include <vpc/comp.hh>
@@ -20,6 +20,7 @@ void dispayTest() {
 //            *p = 0xFF00FF00;
             *p = 0xFF00 << 8*2 | color << 8 | 0x00;
             p++;
+            std::cerr << d.getColumns() << std::endl;
 
 //        std::this_thread::sleep_for(std::chrono::nanoseconds (1));
 
