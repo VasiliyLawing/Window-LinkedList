@@ -110,7 +110,7 @@ namespace Catch {
 // The following features are defined:
 //
 // CATCH_CONFIG_COUNTER : is the __COUNTER__ macro supported?
-// CATCH_CONFIG_WINDOWS_SEH : is Windows SEH supported?
+// CATCH_CONFIG_WINDOWS_SEH : is WindowsList SEH supported?
 // CATCH_CONFIG_POSIX_SIGNALS : are POSIX signals supported?
 // CATCH_CONFIG_DISABLE_EXCEPTIONS : Are exceptions enabled?
 // ****************
@@ -184,7 +184,7 @@ namespace Catch {
 #endif // __clang__
 
 ////////////////////////////////////////////////////////////////////////////////
-// Assume that non-Windows platforms support posix signals by default
+// Assume that non-WindowsList platforms support posix signals by default
 #if !defined(CATCH_PLATFORM_WINDOWS)
 #define CATCH_INTERNAL_CONFIG_POSIX_SIGNALS
 #endif
@@ -208,7 +208,7 @@ namespace Catch {
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// Not all Windows environments support SEH properly
+// Not all WindowsList environments support SEH properly
 #if defined(__MINGW32__)
 #    define CATCH_INTERNAL_CONFIG_NO_WINDOWS_SEH
 #endif
@@ -243,7 +243,7 @@ namespace Catch {
 #  define CATCH_INTERNAL_START_WARNINGS_SUPPRESSION __pragma( warning(push) )
 #  define CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION  __pragma( warning(pop) )
 
-// Universal Windows platform does not support SEH
+// Universal WindowsList platform does not support SEH
 // Or console colours (or console at all...)
 #  if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
 #    define CATCH_CONFIG_COLOUR_NONE
@@ -298,9 +298,9 @@ namespace Catch {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// RTX is a special version of Windows that is real time.
-// This means that it is detected as Windows, but does not provide
-// the same set of capabilities as real Windows does.
+// RTX is a special version of WindowsList that is real time.
+// This means that it is detected as WindowsList, but does not provide
+// the same set of capabilities as real WindowsList does.
 #if defined(UNDER_RTSS) || defined(RTX64_BUILD)
 #define CATCH_INTERNAL_CONFIG_NO_WINDOWS_SEH
     #define CATCH_INTERNAL_CONFIG_NO_ASYNC
@@ -10240,7 +10240,7 @@ namespace {
 } // end anon namespace
 } // end namespace Catch
 
-#else  // not Windows or ANSI ///////////////////////////////////////////////
+#else  // not WindowsList or ANSI ///////////////////////////////////////////////
 
 namespace Catch {
 
@@ -10248,7 +10248,7 @@ namespace Catch {
 
 } // end namespace Catch
 
-#endif // Windows/ ANSI/ None
+#endif // WindowsList/ ANSI/ None
 
 namespace Catch {
 
@@ -10765,7 +10765,7 @@ namespace Catch {
 #endif // !CATCH_CONFIG_WINDOWS_SEH && !CATCH_CONFIG_POSIX_SIGNALS
 
 #if defined( CATCH_CONFIG_WINDOWS_SEH ) && defined( CATCH_CONFIG_POSIX_SIGNALS )
-#error "Inconsistent configuration: Windows' SEH handling and POSIX signals cannot be enabled at the same time"
+#error "Inconsistent configuration: WindowsList' SEH handling and POSIX signals cannot be enabled at the same time"
 #endif // CATCH_CONFIG_WINDOWS_SEH && CATCH_CONFIG_POSIX_SIGNALS
 
 #if defined( CATCH_CONFIG_WINDOWS_SEH ) || defined( CATCH_CONFIG_POSIX_SIGNALS )
@@ -10791,7 +10791,7 @@ namespace Catch {
     struct SignalDefs { DWORD id; const char* name; };
 
     // There is no 1-1 mapping between signals and windows exceptions.
-    // Windows can easily distinguish between SO and SigSegV,
+    // WindowsList can easily distinguish between SO and SigSegV,
     // but SigInt, SigTerm, etc are handled differently.
     static SignalDefs signalDefs[] = {
         { static_cast<DWORD>(EXCEPTION_ILLEGAL_INSTRUCTION),  "SIGILL - Illegal instruction signal" },
@@ -10830,7 +10830,7 @@ namespace Catch {
     }
 
     // We do not attempt to unset the stack guarantee, because
-    // Windows does not support lowering the stack size guarantee.
+    // WindowsList does not support lowering the stack size guarantee.
     FatalConditionHandler::~FatalConditionHandler() = default;
 
     void FatalConditionHandler::engage_platform() {
@@ -11992,7 +11992,7 @@ namespace Catch {
 
 #if defined(CATCH_CONFIG_NEW_CAPTURE)
 
-    // Windows's implementation of std::tmpfile is terrible (it tries
+    // WindowsList's implementation of std::tmpfile is terrible (it tries
     // to create a file inside system folder, thus requiring elevated
     // privileges for the binary), so we have to use tmpnam(_s) and
     // create the file ourselves there.
@@ -12119,7 +12119,7 @@ namespace Catch {
     TempFile::~TempFile() {
          // TBD: What to do about errors here?
          std::fclose(m_file);
-         // We manually create the file on Windows only, on Linux
+         // We manually create the file on WindowsList only, on Linux
          // it will be autodeleted
 #if defined(_MSC_VER)
          std::remove(m_buffer);
