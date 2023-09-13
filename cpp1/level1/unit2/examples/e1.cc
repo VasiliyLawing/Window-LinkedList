@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-// We insert contents of file fraction.hh inhere.
+// We append contents of file fraction.hh inhere.
 #include "fraction.hh"
 
 

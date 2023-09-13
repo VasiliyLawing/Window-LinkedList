@@ -3,38 +3,50 @@
 #include "Window.h"
 #include "WindowsList.h"
 
+
+
 int main () {
+
     Vpc::TextDisplay display("My Text display");
     Screen screen(display);
-    WindowsList windows;
-
+    Vpc::Comp comp(display);
+    //WindowsList windows;
 
     Window w1(10, 10, 20, 10, screen);
-    w1.setColor(Color::greenColor);
+    w1.addText("Window1");
+    comp.update();
+    getchar();
+    w1.printAllText();
 
-    Window w2(40,11,20,10,screen);
-    Window w3(50,11,20,10,screen);
-    w3.setColor(Color::whiteColor);
+    Window w2(40, 10, 20, 10, screen);
+    w2.addText("Window2");
+    getchar();
+    w2.printAllText();
 
-    w1.addText("First Window");
-    w2.addText("Second Window");
-    w3.addText("Third Window");
+    Window w3(70, 10, 20, 10, screen);
+    w3.addText("Window3");
+    comp.update();
 
-    windows.insert(&w1);
-    windows.insert(&w2);
-    windows.insert(&w3);
+    getchar();
+    w3.printAllText();
 
-    windows.remove(2);
-
-
-    windows.insert(&w1);
-
-
-    while (true) {
-        Vpc::Comp comp(display);
-
-        windows.drawWindows();
+    {
+        Window w4(85, 10, 20, 10, screen);
+        w4.addText("Window4");
+        w4.printAllText();
         comp.update();
+        getchar();
+
     }
+
+    Window w4(85, 10, 20, 10, screen);
+    w4.addText("Window5");
+    w4.printAllText();
+
+    comp.update();
+
+    getchar();
+
+    while (comp.update());
 }
 

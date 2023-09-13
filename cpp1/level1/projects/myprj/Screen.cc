@@ -29,11 +29,10 @@ void Screen::set(int x, int y, const char text, const Color bgColor, const Color
 }
 
 void Screen::clear() {
-    for (int x = 0; x <= 106; x++) {
-        for (int y = 0; y < 25; y++) {
+    for (int x = 0; x <= 106; x++)
+        for (int y = 0; y < 25; y++)
            set(x, y, ' ', Color::blackColor, Color::blackColor);
-        }
-    }
+
 }
 
 
