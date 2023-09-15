@@ -29,8 +29,7 @@ public:
 
     void print();
     void draw();
-
+    static void drawAll();
     void setColor(Color color);
-    static void printAllText();
 
 };

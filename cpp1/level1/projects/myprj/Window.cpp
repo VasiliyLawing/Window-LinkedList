@@ -35,9 +35,14 @@ void Window::addText(const std::string& text) {
 void Window::print() {
     std::string text = getText();
     int y = windowY;
-
-    for (int xCord = windowX; xCord < text.size()+windowX; xCord++)
-        windowScreen.set(xCord, y,text.at(xCord-windowX), Color::blackColor, Color::whiteColor);
+    int xCursor = 0;
+    for (int xCord = windowX; xCord < text.size()+windowX; xCord++) {
+        if (xCursor+xCord >= windowX + windowWidth) {
+            ++y;
+            xCursor -= windowWidth;
+        }
+        windowScreen.set(xCursor+xCord, y, text.at(xCord - windowX), Color::blackColor, Color::whiteColor);
+    }
 }
 
 void Window::setColor(Color color) {
@@ -45,11 +50,6 @@ void Window::setColor(Color color) {
     draw();
 }
 void Window::append() {
-//    if (firstWindow == nullptr) {
-//        firstWindow = this;
-//        length ++;
-//        return;
-//    }
     this->nextWindow = firstWindow;
     this->previousWindow = nullptr;
 
@@ -74,16 +74,18 @@ Window::~Window() {
         this->previousWindow->nextWindow = this->nextWindow;
 
     length--;
+    windowScreen.clear();
+    drawAll();
 }
 
-void Window::printAllText() {
+
+
+void Window::drawAll() {
     Window* currentWindow = firstWindow;
     std::cout << firstWindow << std::endl;
 
     while (currentWindow != nullptr) {
-        std::cout << currentWindow->getText() << std::endl;
+        currentWindow->draw();
         currentWindow = currentWindow->nextWindow;
-        std::cout << currentWindow << std::endl;
-
     }
 }
