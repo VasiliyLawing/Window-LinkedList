@@ -3,9 +3,7 @@
 #include "Window.h"
 
 
-
 int main () {
-
     Vpc::TextDisplay display("My Text display");
     Screen screen(display);
     Vpc::Comp comp(display);
